@@ -1,0 +1,67 @@
+{
+	"type": [
+		{
+			"target_id": "program_of_study"
+		}
+	],
+	"title": [
+		{
+			"value": ""
+		}
+	],
+	"id": [
+		{
+			"value": "138921420"
+		}
+	],
+	"surname": [
+		{
+			"value": "Mambule"
+		}
+	],
+	"firstname": [
+		{
+			"value": "Keabetswe"
+		}
+	],
+	"institution": [
+		{
+			"value": "UNIVERSITY OF BOTSWANA"
+		}
+	],
+	"institution_program_code": [
+		{
+			"value": "SSB0100120"
+		}
+	],
+	"program_name": [
+		{
+			"value": "BA SOCIAL SCIENCES"
+		}
+	],
+	"program_duration": [
+		{
+			"value": "4"
+		}
+	],
+	"start_date": [
+		{
+			"value": "14 Mar 2023"
+		}
+	],
+	"completion_date": [
+		{
+			"value": "14 Jun 2027"
+		}
+	],
+	"entry_level": [
+		{
+			"value": "1"
+		}
+	],
+	"cost": [
+		{
+			"value": "10000"
+		}
+	]
+}

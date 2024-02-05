@@ -1,0 +1,47 @@
+{
+	"id": [
+		{
+			"value": "317510322"
+		}
+	],
+	"tr": [
+		{
+			"value": "212648"
+		}
+	],
+	"names": [
+		{
+			"value": "Keabetswe Thomas"
+		}
+	],
+	"surname": [
+		{
+			"value": "Mambule"
+		}
+	],
+	"study_year": [
+		{
+			"value": "4"
+		}
+	],
+	"study_semester": [
+		{
+			"value": "1"
+		}
+	],
+	"modules": [
+		{
+			"value": "aad, java, cipa"
+		}
+	],
+	"results": [
+		{
+			"value": "p, p, f"
+		}
+	],
+	"status": [
+		{
+			"value": "continue"
+		}
+	]
+}

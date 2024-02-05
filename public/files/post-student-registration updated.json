@@ -1,0 +1,67 @@
+{
+	"id": [
+		{
+			"value": "100721626"
+		}
+	],
+	"names": [
+		{
+			"value": "TSHEPHO"
+		}
+	],
+	"surname": [
+		{
+			"value": "TESELETSO"
+		}
+	],
+	"prog_name": [
+		{
+			"value": "Web and Mobile Technologies"
+		}
+	],
+	"prog_code": [
+		{
+			"value": "mtec"
+		}
+	],
+	"inst": [
+		{
+			"value": "Botswana Accountancy College"
+		}
+	],
+	"campus": [
+		{
+			"value": "Main Campus"
+		}
+	],
+	"accomo": [
+		{
+			"value": "on"
+		}
+	],
+	"study_year": [
+		{
+			"value": "1"
+		}
+	],
+	"study_semester": [
+		{
+			"value": "1"
+		}
+	],
+	"sem_start_date": [
+		{
+			"value": "14 Jan 2027"
+		}
+	],
+	"sem_end_date": [
+		{
+			"value": "14 Jun 2027"
+		}
+	],
+	"modules": [
+		{
+			"value": "cpdma, ooad, awd"
+		}
+	]
+}
