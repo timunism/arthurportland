@@ -1,8 +1,8 @@
-<div class="space-y-6 md:space-x-2 md:space-y-0">
+<div class="flex justify-end space-y-6 md:space-x-2 md:space-y-0">
     <a
     href="{{ route('pulse') }}"
-    target="_blank"
-    class="inline-flex items-center justify-center px-4 py-1 space-x-1 bg-gray-800 text-white rounded-md shadow animate-bounce hover:bg-gray-700"
+    wire:navigate
+    class="inline-flex items-center justify-center px-4 py-1 space-x-1 bg-theme-light text-white rounded-md shadow animate-bounce hover:bg-theme-default"
     >
     <span>
         <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,6 +15,6 @@
             </defs>
         </svg>
     </span>
-    <span>Open Razor Pulse</span>
+    <span>Open Pulse</span>
     </a>
 </div>

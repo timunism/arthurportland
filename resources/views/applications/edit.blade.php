@@ -5,7 +5,13 @@ $unavailable = 'not available';
 <x-app-layout>
     <div class="mt-6">
         {{-- Header Component Start --}}
-        <x-componable.edit-header title="Applicant Details" year="{{ $student_info->application_date }}" status="{{ $student_info->sponsor }} sponsored"/>
+        <x-componable.edit-header 
+            title="Applicant Details"
+            year="{{ $student_info->application_date }}"
+            status="{{ $student_info->sponsor }} sponsored"
+            backroute="applications.index"
+            navigate="true"
+            />
         {{-- Header Component End --}}
         <div class="mt-3 rounded-sm relative overflow-x-auto overflow-y bg-white">
             <table class="w-full text-left text-gray-700 dark:text-gray-400 edit-table">

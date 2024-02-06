@@ -69,7 +69,7 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $student->national_id }}</td>
                                     <td class="px-4 py-3">{{ $student->course_code }}</td>
                                     <td class="px-4 py-3">
-                                    <a href="{{ route('applications.edit', $student->student_profile_id)}}" class="px-3 py-1 bg-green-600 text-white font-semibold rounded">View</a>
+                                    <a href="{{ route('applications.edit', $student->student_profile_id)}}" wire:navigate class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">View</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -67,8 +67,8 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $student->national_id }}</td>
                                     <td class="px-4 py-3">{{ $student->program_code }}</td>
                                     <td class="px-4 py-3">
-                                    <a href="{{ route('dtef.edit', $student->id) }}" class="px-3 py-1 bg-purple-500 text-white font-semibold rounded">View</a>
-                                    <a href="{{ route('dtefsubmission.entry', $student->id)}}" class="px-3 py-1 bg-green-600 text-white font-semibold rounded">Submit</a>
+                                    <a href="{{ route('dtef.edit', $student->id) }}" wire:navigate class="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded">View</a>
+                                    <a href="{{ route('dtefsubmission.entry', $student->id)}}" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">Submit</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -5,7 +5,13 @@ $unavailable = 'not available';
 <x-app-layout>
     <div class="mt-6">
         {{-- Header Component Start --}}
-        <x-componable.edit-header title="DTEF Sponsored" year="2023/2024" status="active"/>
+        <x-componable.edit-header
+        title="DTEF Sponsored"
+        year="2023/2024"
+        status="active"
+        backroute="dtef.index"
+        navigate="true"
+        />
         {{-- Header Component End --}}
         <div class="mt-3 rounded-sm relative overflow-x-auto overflow-y bg-white">
             <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
