@@ -65,20 +65,35 @@ try {
       const gender = document.getElementById('gender');
       const dob = document.getElementById('dob');
       const email = document.getElementById('email');
-      const cellphone1 = document.getElementById('cellphone1');
-      const postalAddress = document.getElementById('postal-address');
-      const physicalAddress = document.getElementById('physical-address');
-      const place_of_application = document.getElementById('place_of_application');
+      const phone = document.getElementById('phone');
+      const postalAddress = document.getElementById('postal_address');
+      const physicalAddress = document.getElementById('physical_address');
+      const employer = document.getElementById('employer');
+      const senior_school = document.getElementById('senior_school');
+      const college = document.getElementById('school');
+      const highest_qualification = document.getElementById('highest_qualification');
+      const work = document.getElementById('work');
+      const nok_phone = document.getElementById('nok_phone');
+      const national_id = document.getElementById('national_id');
+      const qualifications = document.getElementById('qualifications');
 
       fullname.value = saveData['fullname'];
       surname.value = saveData['surname'];
       gender.value = saveData['gender'];
       dob.value = saveData['dob'];
       email.value = saveData['email'];
-      cellphone1.value = saveData['cell_phone1'];
+      phone.value = saveData['phone'];
       postalAddress.value = saveData['postal_address'];
       physicalAddress.value = saveData['physical_address'];
-      place_of_application.value = saveData['place_of_application']
+      employer.value = saveData['employer'];
+      senior_school.value = saveData['senior_school'];
+      college.value = saveData['school'];
+      highest_qualification.value = saveData['highest_qualification'].toLowerCase();
+      work.value = saveData['work'];
+      nok_phone.value = saveData['nok_phone'];
+      national_id.value = saveData['national_id'];
+      qualifications.value = saveData['national_id'];
+      console.log(employer.value);
     }
     catch(e) {
       console.log('chat-engine data-receiver not found')

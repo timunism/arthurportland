@@ -96,7 +96,7 @@ class DtefSubmissionController extends Controller {
                         ['value' => $result->completion_date]
                     ],
                     'entry_level' => [
-                        ['value' => $result->level_of_entry]
+                        ['value' => 1]
                     ],
                     'cost' => [
                         ['value' => $result->program_cost]

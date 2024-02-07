@@ -4,6 +4,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PulseController;
 use App\Http\Controllers\ApplicationChatbotController;
 use App\Http\Controllers\ApplicationsController;
+use App\Http\Controllers\ApplyController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DtefController;
 use App\Http\Controllers\DtefSubmissionController;
 use App\Http\Controllers\RolesController;
@@ -56,7 +58,14 @@ Route::get('/pulse', [PulseController::class, 'index'])
 Route::get('/apply/chatbot', [ApplicationChatbotController::class, 'index'])
     ->name('applybot');
 
+Route::resource('apply', ApplyController::class);
+
 Route::get('/get_roles', [RolesController::class, 'getRoles'])
     ->name('getroles');
+
+Route::get('/get_courses', [CourseController::class, 'getCourses'])
+    ->name('getCourses');
+
+Route::resource('courses', CourseController::class);
 
 require __DIR__.'/auth.php';

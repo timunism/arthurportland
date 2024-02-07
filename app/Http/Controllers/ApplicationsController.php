@@ -30,4 +30,5 @@ class ApplicationsController extends Controller
             'student_academic'=>$student_academic_detail
         ]);
     }
+
 }
