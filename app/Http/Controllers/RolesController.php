@@ -9,7 +9,9 @@ class RolesController extends Controller
 {
     public function getRoles()
     {
-        $roles = Role::where('status', 'active')->get();
+        $roles = Role::where('status', 'active')
+        ->where('visibility', 'visible')->get();
+        
         return response()->json($roles);
     }
 }

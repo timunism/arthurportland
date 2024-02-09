@@ -13,7 +13,7 @@
     <body id="body" class="antialiased dark:bg-gray-900 bg-gray-100" > 
         <x-componable.delete-save/>
         <livewire:layout.navbar/>
-        <x-componable.sidebar background=theme-default/>
+        <x-componable.sidebar/>
         <div class="flex overflow-hidden pt-8">
            <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
            <div id="main-content" class="h-full w-full bg-gray-100 dark:bg-gray-900 dark:text-gray-400 relative overflow-y-auto lg:ml-64">

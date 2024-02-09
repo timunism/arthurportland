@@ -1,10 +1,16 @@
 <?php 
-
+use App\Models\StudentProfile;
+if (Auth::User()) {
+   $hasApplied = StudentProfile::where('email', Auth::User()->email)->first();
+}
 // Link & Route Allocation for Students
-$students = ['Defer', 'Withdraw', 'Transfer'];
+$new_applicant = [
+   1=>['name'=>'Apply', 'route'=>'apply.index', 'uri'=>'apply']
+];
+$applicant = [];
 
 // Link & Route Allocation for Admins
-$admins = [
+$admin = [
    1=>['name'=>'Applications', 'route'=>'applications.index', 'uri'=>'applications'], 
    2=>['name'=>'DTEF', 'route'=>'dtef.index', 'uri'=>'dtef']
 ];
@@ -12,11 +18,19 @@ $admins = [
 $view = "";
 
 if (Auth::User()) {
-   if (Auth::User()->role != "student") {
-      $view = $admins;
+   if (Auth::User()->access != 'individual') {
+      $view = $admin;
    }
    else {
-      $view = $students;
+      if (Auth::User()->role == 'applicant') {
+         if ($hasApplied == null) {
+            // Assume the user is a new applicant
+            $view = $new_applicant;
+         }
+         else {
+            $view = $applicant;
+         }
+      }
    }
 }
 # Retrieve current page URI
@@ -85,14 +99,6 @@ $currentSelection = $currentSelection[0];
                            <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path>
                         </svg>
                         <span class="ml-3 flex-1 whitespace-nowrap">Sign Up</span>
-                     </a>
-                  </li>
-                  <li class="ml-3">
-                     <a id="apply" href="{{ route('applybot') }}" class="text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
-                        <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                           <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap">Apply</span>
                      </a>
                   </li>
                 @endif

@@ -121,15 +121,28 @@ $unavailable = 'not available';
                 </tbody>
             </table>
         </div>
-        <div class="flex justify-center mt-6 space-x-3">
-            <a href="#" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
-            <a href="#" class="px-3 py-1 border-2 hover:border-red-500 hover:bg-transparent bg-red-500 text-white hover:text-red-500 transition-all font-semibold rounded">Reject</a>
-        </div>
-        <div class="flex justify-center mt-2">
-            <h1>OR</h1>
-        </div>
-        <div class="flex justify-center mt-2 space-x-3">
-            <a href="#" class="text-orange-600 hover:text-purple-500 transition-all font-semibold underline">Push to Waitlist</a>
-        </div>
+        @if ($student_info->registration_status == 'pending')
+            <div class="flex justify-center mt-6 space-x-3">
+                <a href="{{ route('applications.admit', $student_info->student_profile_id) }}" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
+                <a href="#" class="px-3 py-1 border-2 hover:border-red-500 hover:bg-transparent bg-red-500 text-white hover:text-red-500 transition-all font-semibold rounded">Reject</a>
+            </div>
+            <div class="flex justify-center mt-2">
+                <h1>OR</h1>
+            </div>
+            <div class="flex justify-center mt-2 space-x-3">
+                <a href="#" class="text-orange-600 hover:text-purple-500 transition-all font-semibold underline">Push to Waitlist</a>
+            </div>
+        @endif
+        @if ($student_info->registration_status == 'waitlisted')
+            <div class="flex justify-center mt-6 space-x-3">
+                <a href="{{ route('applications.admit', $student_info->student_profile_id) }}" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
+                <a href="#" class="px-3 py-1 border-2 hover:border-red-500 hover:bg-transparent bg-red-500 text-white hover:text-red-500 transition-all font-semibold rounded">Reject</a>
+            </div>
+        @endif
+        @if ($student_info->registration_status == 'rejected')
+            <div class="flex justify-center mt-6 space-x-3">
+                <a href="{{ route('applications.admit', $student_info->student_profile_id) }}" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
+            </div>
+        @endif
     </div>
 </x-app-layout>

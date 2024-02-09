@@ -13,7 +13,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1 class="font-semibold text-gray-700 m-2" style="font-size:1.4rem;">Home</h1>
-                    @if (Auth::User() != 'student' && Auth::User() != 'applicant')
+                    @if (Auth::User()->access != 'individual')
                         {{-- Begin Charts --}}
                         <div class="sm:flex mb-5 bg-white dark:bg-gray-800 shadow dark:shadow-slate-900 shadow-slate-300 rounded-lg p-4 sm:p-6 xl:p-8">
                             {{-- Begin Chart Container --}}
@@ -113,6 +113,10 @@
                                 />
                             </div>
                         </div>
+                    @else
+                        @if (Auth::User()->role == 'applicant')
+                            <x-scripts.applicant_validation />
+                        @endif
                     @endif
                 </div>
             </div>

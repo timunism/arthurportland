@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ new #[Layout('layouts.guest')] class extends Component
     public string $fullname = '';
     public string $surname = '';
     public string $role = '';
+    public string $access = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
@@ -23,21 +25,57 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function register(): void
     {
-        $validated = $this->validate([
-            'fullname' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+        // Add Access Rights
+        $role = Role::where('role', $this->role)->first();
 
-        $validated['password'] = Hash::make($validated['password']);
+        if ($role->access != 'individual') {
+            if (Auth::User()) {
+                if (Auth::User()->access == 'administrative' || Auth::User()->access == 'unrestricted') {
+                    $this->access = $role->access;
+                    $validated = $this->validate([
+                        'fullname' => ['required', 'string', 'max:255'],
+                        'surname' => ['required', 'string', 'max:255'],
+                        'role' => ['required', 'string', 'max:255'],
+                        'access' => ['required', 'string', 'max:255'],
+                        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                        'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+                    ]);
 
-        event(new Registered($user = User::create($validated)));
+                    $validated['password'] = Hash::make($validated['password']);
 
-        Auth::login($user);
+                    event(new Registered($user = User::create($validated)));
 
-        $this->redirect(RouteServiceProvider::HOME, navigate: false);
+                    Auth::login($user);
+
+                    $this->redirect(RouteServiceProvider::HOME, navigate: false);
+                }
+                else {
+                   redirect()->route('register');
+                }
+            }
+            else {
+                redirect()->route('register');
+            }
+        }
+        else {
+            $this->access = $role->access;
+            $validated = $this->validate([
+                'fullname' => ['required', 'string', 'max:255'],
+                'surname' => ['required', 'string', 'max:255'],
+                'role' => ['required', 'string', 'max:255'],
+                'access' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            ]);
+
+            $validated['password'] = Hash::make($validated['password']);
+
+            event(new Registered($user = User::create($validated)));
+
+            Auth::login($user);
+
+            $this->redirect(RouteServiceProvider::HOME, navigate: false);
+        }
     }
 }; 
 ?>

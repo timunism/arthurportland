@@ -30,14 +30,27 @@ $count = $initial_count - 1;
                             placeholder="Search" required="">
                         </div>
                     </div>
-                    <div class="flex space-x-3">
-                        <div class="flex space-x-3 items-center">
-                            <label class="w-40 text-sm font-medium dark:text-gray-500 text-gray-900">Year:</label>
+                    <div class="flex space-x-8">
+                        <div class="flex space-x-0 items-center">
+                            <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Year:</label>
                             <select wire:model.live="year"
-                                class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  block p-2.5 pr-8">
                                 <option value="">All</option>
                                 <option value="2022">2022</option>
                                 <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center">
+                            <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Admission:</label>
+                            <select wire:model.live="admission"
+                                class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-8">
+                                <option value="">All</option>
+                                <option value="pending">Pending</option>
+                                <option value="admitted">Admitted</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="waitlisted">Waitlisted</option>
                             </select>
                         </div>
                     </div>

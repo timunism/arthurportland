@@ -9,6 +9,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DtefController;
 use App\Http\Controllers\DtefSubmissionController;
 use App\Http\Controllers\RolesController;
+use Illuminate\Console\Application;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,10 @@ Route::get('dtefsubmission/entry/{id}', [DtefSubmissionController::class, 'entry
 Route::resource('dtefsubmission', DtefSubmissionController::class)
     ->middleware(['auth']);
 
+Route::get('applications/admit/{id}', [ApplicationsController::class, 'admit'])
+    ->middleware(['auth'])
+    ->name('applications.admit');
+
 Route::resource('applications', ApplicationsController::class)
     ->middleware((['auth']));
 
@@ -55,10 +60,14 @@ Route::get('/pulse', [PulseController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('pulse');
 
-Route::get('/apply/chatbot', [ApplicationChatbotController::class, 'index'])
-    ->name('applybot');
+Route::get('/apply/standard', [ApplyController::class, 'standard'])
+    ->name('apply.standard');
 
-Route::resource('apply', ApplyController::class);
+Route::get('/apply/chatbot', [ApplyController::class, 'chatbot'])
+    ->name('apply.chatbot');
+
+Route::resource('apply', ApplyController::class)
+    ->middleware(['auth']);
 
 Route::get('/get_roles', [RolesController::class, 'getRoles'])
     ->name('getroles');

@@ -14,6 +14,7 @@ class ApplicationsTable extends Component
     public $perPage = 5;
     public $search = '';
     public $year = '';
+    public $admission = '';
 
     public function render()
     {
@@ -26,6 +27,9 @@ class ApplicationsTable extends Component
         ->search($this->search)
         ->when($this->year !== '', function($query){
             $query->whereYear('start_date',$this->year);
+        })
+        ->when($this->admission != '', function($query) {
+            $query->where('registration_status', $this->admission);
         })
         ->paginate($this->perPage);
 

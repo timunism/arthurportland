@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicationRequest extends FormRequest
 {
@@ -11,7 +12,12 @@ class ApplicationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        if (Auth::User()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -25,6 +31,7 @@ class ApplicationRequest extends FormRequest
             'national_id' => ['string', 'max:60'],
             'date' => ['date'],
             'email' => ['email'],
+            'qualifications' => ['string', 'max:255'],
         ];
     }
 }
