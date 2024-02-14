@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.hidden {
+  display: none;
+}
 .edit-table {
   font-size: 1rem;
 }

@@ -43,6 +43,19 @@ $count = $initial_count - 1;
                         </div>
 
                         <div class="flex items-center">
+                            <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Course:</label>
+                            <select wire:model.live="course_code" id="course_code"
+                                class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-8">
+                                <option value="">All</option>
+                                <option value="ACCA">ACCA</option>
+                                <option value="CIMA">CIMA</option>
+                                <option value="AAT">AAT</option>
+                                <option value="CFA">CFA</option>
+                                <option value="BICA">BICA</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center">
                             <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Admission:</label>
                             <select wire:model.live="admission"
                                 class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-8">
@@ -60,11 +73,32 @@ $count = $initial_count - 1;
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-4 py-3">No.</th>
-                                <th scope="col" class="px-4 py-3">Fullname</th>
-                                <th scope="col" class="px-4 py-3">Surname</th>
-                                <th scope="col" class="px-4 py-3">Gender</th>
+                                <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">
+                                    @include('livewire.includes.sort-button', [
+                                        "name"=>"id",
+                                        "displayName"=>"Profile Id"
+                                    ])
+                                </th>
+                                <th scope="col" class="px-4 py-3" wire:click="setSortBy('fullname')">
+                                    @include('livewire.includes.sort-button', [
+                                        "name"=>"fullname",
+                                        "displayName"=>"Fullname"
+                                    ])
+                                </th>
+                                <th scope="col" class="px-4 py-3" wire:click="setSortBy('surname')">
+                                    @include('livewire.includes.sort-button', [
+                                        "name"=>"surname",
+                                        "displayName"=>"Surname"
+                                    ])
+                                </th>
+                                <th scope="col" class="px-4 py-3" wire:click="setSortBy('gender')">
+                                    @include('livewire.includes.sort-button', [
+                                        "name"=>"gender",
+                                        "displayName"=>"Gender"
+                                    ])
+                                </th>
                                 <th scope="col" class="px-4 py-3">National ID</th>
-                                <th scope="col" class="px-4 py-3">Program Code</th>
+                                <th scope="col" class="px-4 py-3">Course Code</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
@@ -76,6 +110,7 @@ $count = $initial_count - 1;
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $count }}
                                     </th>
+                                    <td class="px-4 py-3">{{ $student->student_profile_id }}</td>
                                     <td class="px-4 py-3">{{ $student->fullname }}</td>
                                     <td class="px-4 py-3">{{ $student->surname }}</td>
                                     <td class="px-4 py-3">{{ $student->gender }}</td>

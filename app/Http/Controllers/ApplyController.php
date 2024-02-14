@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\StudentAcademicDetail;
 use App\Models\StudentCourse;
+use App\Models\StudentCoursePaper;
 use App\Models\StudentProfile;
+use DateTime;
+use Illuminate\Contracts\Notifications\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ApplyController extends Controller
 {
@@ -17,6 +22,9 @@ class ApplyController extends Controller
     public $request;
     public $date_of_birth = "";
     public $course;
+    public $application_fee_receipt_dir;
+    public $academic_transcript_dir;
+    public $papers = "";
 
     public function index()
     {
@@ -47,12 +55,12 @@ class ApplyController extends Controller
         $request->validate([
             'national_id'=>'required|unique:student_profile',
             'email'=>'required|unique:student_profile',
-            'qualifications'=>'required',
+            'application_fee_receipt'=> 'required|image|mimes:jpg,png,jpeg|max:2048',
+            'academic_transcript'=> 'required|file|mimes:pdf|max:2048'
         ]);
-
         $this->pushProfile($request);
-        
-        return view('apply.index');
+
+        return view('dashboard', ['alert'=>'true']);
     }
 
     /**
@@ -95,21 +103,36 @@ class ApplyController extends Controller
         $this->request = $request;
         // Reformat Date of Birth for MySQl Database
         $raw_date = str($request->input('dob'));
-        $date_of_birth ="";
 
-        try {
-            // Chatbot
-            $date = explode("/", $raw_date);
-            $date_of_birth = date($date[2].'-'.$date[1].'-'.$date[0]);
-        } catch (\Throwable $th) {
-            // Standard
-            $date_of_birth = date($raw_date);
-        }
+        // Handle files
+        # application receipt
+        $this->application_fee_receipt_dir = date('Ymdhis').Auth::User()->id.'.'.$request->application_fee_receipt->extension();
+        $request->application_fee_receipt->storeAs('public/application_fee_receipts', $this->application_fee_receipt_dir);
+
+        # academic transcripts
+        $this->academic_transcript_dir = date('Ymdhis').Auth::User()->id.'.'.$request->academic_transcript->extension();
+        $request->academic_transcript->storeAs('public/academic_transcripts', $this->academic_transcript_dir);
+
         // moving these to global scope as well
-        $this->date_of_birth = $date_of_birth;
+        $this->date_of_birth = date($raw_date);
         $this->course = StudentCourse::where('id', $request->input('course'))->first();
-        
 
+        // retrieve papers
+        # first count total number of recorded papers
+        $total_papers = StudentCoursePaper::all();
+        $total_papers = count($total_papers);
+
+        // then find the requested papers, in the range of the total count
+        for ($i=0; $i < $total_papers+1; $i++) {
+            // for each iteration check to see if a request exists
+            $current_paper_request = $request->input('paper_'.$i);
+            if ($current_paper_request){
+                // if true, retrieve the paper name from the database
+                $paper = StudentCoursePaper::where('id', $i)->first();
+                // append to the paper column for course registrations
+                $this->papers = $this->papers.$paper->paper_name.';';
+            }
+        }
         DB::transaction(function () {
             $profileId = DB::table('student_profile')->insertGetId([
                 'fullname' => $this->request->input('fullname'),
@@ -131,7 +154,7 @@ class ApplyController extends Controller
                 'school' => $this->request->input('school'),
                 'senior_school' => $this->request->input('senior_school'),
                 'qualifications' => $this->request->input('qualifications'),
-                'documents' => 'DUMMY'
+                'documents' => $this->academic_transcript_dir
             ]);
     
             DB::table('student_course_registration')->insert([
@@ -139,6 +162,8 @@ class ApplyController extends Controller
                 'course_id' => $this->request->input('course'),
                 'level_of_entry'=>$this->request->input('level_of_entry'),
                 'sponsor'=>$this->request->input('sponsor'),
+                'application_fee_receipt'=>$this->application_fee_receipt_dir,
+                'paper'=>$this->papers
             ]);
         });
     }

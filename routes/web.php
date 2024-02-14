@@ -8,6 +8,7 @@ use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DtefController;
 use App\Http\Controllers\DtefSubmissionController;
+use App\Http\Controllers\DtefRegistrationController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Console\Application;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,30 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::get('dtef/admissions', [DtefController::class, 'admissions'])
+    ->middleware(['auth'])
+    ->name('dtef.admissions');
+
+Route::get('dtef/registrations', [DtefController::class, 'registrations'])
+    ->middleware(['auth'])
+    ->name('dtef.registrations');
+
+Route::get('dtef/results', [DtefController::class, 'results'])
+    ->middleware(['auth'])
+    ->name('dtef.results');
+
+Route::get('dtef/registrations/edit/{id}', [DtefController::class, 'editregistration'])
+    ->middleware(['auth'])
+    ->name('dtef.editregistration');
+
+Route::get('dtef/admissions/edit/{id}', [DtefController::class, 'editadmission'])
+    ->middleware(['auth'])
+    ->name('dtef.editadmission');
+
+Route::get('dtef/results/edit/{id}', [DtefController::class, 'editresult'])
+    ->middleware(['auth'])
+    ->name('dtef.editresult');
+    
 Route::resource('dtef', DtefController::class)
     ->middleware(['auth']);
 
@@ -44,6 +69,18 @@ Route::get('dtefsubmission/bulk', [DtefSubmissionController::class, 'bulk'])
 Route::get('dtefsubmission/entry/{id}', [DtefSubmissionController::class, 'entry'])
     ->middleware(['auth'])
     ->name('dtefsubmission.entry');
+
+Route::get('dtefregistration/entry/{id}', [DtefRegistrationController::class, 'entry'])
+    ->middleware(['auth'])
+    ->name('dtefregistration.entry');
+
+Route::get('dtefregistration/bulk', [DtefRegistrationController::class, 'bulk'])
+    ->middleware(['auth'])
+    ->name('dtefregistration.bulk');
+
+Route::get('dtefadmission/entry/{id}', [DtefSubmissionController::class, 'admission'])
+    ->middleware(['auth'])
+    ->name('dtefadmission.entry');
 
 Route::resource('dtefsubmission', DtefSubmissionController::class)
     ->middleware(['auth']);

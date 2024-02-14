@@ -29,9 +29,9 @@ class ApplicationRequest extends FormRequest
     {
         return [
             'national_id' => ['string', 'max:60'],
-            'date' => ['date'],
             'email' => ['email'],
-            'qualifications' => ['string', 'max:255'],
+            'application_fee_receipt' => ['image', 'max:2048'],
+            'academic_transcript' => ['file', 'max:2048']
         ];
     }
 }

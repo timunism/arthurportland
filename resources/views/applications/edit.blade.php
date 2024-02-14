@@ -23,6 +23,10 @@ $unavailable = 'not available';
                 </thead>
                 <tbody>
                     <tr>
+                        <th scope="col" class="px-6 py-5 text-gray-700">Application Fee Receipt</th>
+                        <td><a target="_blank" href="{{ asset('storage/application_fee_receipts/'.$student_info->application_fee_receipt) }}" class="underline cursor-pointer hover:text-blue-500">View Receipt</a></td>
+                    </tr>
+                    <tr>
                         <th scope="col" class="px-6 py-2  bg-gray-100 text-gray-700">Name</th>
                         <td class="bg-gray-100">{{ $student_info->fullname ?? $unavailable }}</td>
                     </tr>
@@ -55,11 +59,11 @@ $unavailable = 'not available';
                         <td class="bg-gray-100">{{ $student_info->accomodation_status ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Program Code</th>
+                        <th scope="col" class="px-6 py-2 text-gray-700">Course Code</th>
                         <td>{{ $student_info->course_code ?? $unavailable ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Program</th>
+                        <th scope="col" class="px-6 py-2 text-gray-700">Course</th>
                         <td>{{ $student_info->course_name ?? $unavailable ?? $unavailable }}</td>
                     </tr>
                     <tr>
@@ -108,11 +112,11 @@ $unavailable = 'not available';
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-5 text-gray-700">Documents</th>
-                        <td><a href="{{ asset('storage/applicant_docs/'.$student_academic->documents) }}" class="underline cursor-pointer hover:text-blue-500">View Documents</a></td>
+                        <td><a href="{{ asset('storage/academic_transcripts/'.$student_academic->documents) }}" class="underline cursor-pointer hover:text-blue-500">View Documents</a></td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Paper</th>
-                        <td class="bg-gray-100">{{ $student_info->paper ?? $unavailable }}</td>
+                        <td class="bg-gray-100" id="paper">{{ str_replace(';', ' | ',$student_info->paper) ?? $unavailable }}</td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-2 text-gray-700">Level of Entry</th>
@@ -123,25 +127,25 @@ $unavailable = 'not available';
         </div>
         @if ($student_info->registration_status == 'pending')
             <div class="flex justify-center mt-6 space-x-3">
-                <a href="{{ route('applications.admit', $student_info->student_profile_id) }}" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
-                <a href="#" class="px-3 py-1 border-2 hover:border-red-500 hover:bg-transparent bg-red-500 text-white hover:text-red-500 transition-all font-semibold rounded">Reject</a>
+                <livewire:application-admit id="{{ $student_info->student_profile_id }}"/>
+                <livewire:application-reject id="{{ $student_info->student_profile_id }}"/>
             </div>
-            <div class="flex justify-center mt-2">
+            <div id="waitlistOr" class="flex justify-center mt-2">
                 <h1>OR</h1>
             </div>
             <div class="flex justify-center mt-2 space-x-3">
-                <a href="#" class="text-orange-600 hover:text-purple-500 transition-all font-semibold underline">Push to Waitlist</a>
+                <livewire:application-waitlist id="{{ $student_info->student_profile_id }}"/>
             </div>
         @endif
         @if ($student_info->registration_status == 'waitlisted')
             <div class="flex justify-center mt-6 space-x-3">
-                <a href="{{ route('applications.admit', $student_info->student_profile_id) }}" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
-                <a href="#" class="px-3 py-1 border-2 hover:border-red-500 hover:bg-transparent bg-red-500 text-white hover:text-red-500 transition-all font-semibold rounded">Reject</a>
+                <livewire:application-admit id="{{ $student_info->student_profile_id }}"/>
+                <livewire:application-reject id="{{ $student_info->student_profile_id }}"/>
             </div>
         @endif
         @if ($student_info->registration_status == 'rejected')
             <div class="flex justify-center mt-6 space-x-3">
-                <a href="{{ route('applications.admit', $student_info->student_profile_id) }}" class="px-3 py-1 border-2 hover:border-green-600 hover:bg-transparent bg-green-600 text-white hover:text-green-600 transition-all font-semibold rounded">Admit</a>
+                <livewire:application-admit id="{{ $student_info->student_profile_id }}"/>
             </div>
         @endif
     </div>

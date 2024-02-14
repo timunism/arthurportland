@@ -1,4 +1,5 @@
 // tw-elements chart initialization
+import Swal from "sweetalert2";
 import {
     Chart,
     initTE,
@@ -60,35 +61,25 @@ try {
 
   function importApplicantData(){
     try{
-      const fullname = document.getElementById('fullname');
-      const surname = document.getElementById('surname');
       const gender = document.getElementById('gender');
-      const dob = document.getElementById('dob');
-      const email = document.getElementById('email');
       const phone = document.getElementById('phone');
       const postalAddress = document.getElementById('postal_address');
       const physicalAddress = document.getElementById('physical_address');
       const employer = document.getElementById('employer');
       const senior_school = document.getElementById('senior_school');
       const college = document.getElementById('school');
-      const highest_qualification = document.getElementById('highest_qualification');
       const work = document.getElementById('work');
       const nok_phone = document.getElementById('nok_phone');
       const national_id = document.getElementById('national_id');
       const qualifications = document.getElementById('qualifications');
 
-      fullname.value = saveData['fullname'];
-      surname.value = saveData['surname'];
       gender.value = saveData['gender'];
-      dob.value = saveData['dob'];
-      email.value = saveData['email'];
       phone.value = saveData['phone'];
       postalAddress.value = saveData['postal_address'];
       physicalAddress.value = saveData['physical_address'];
       employer.value = saveData['employer'];
       senior_school.value = saveData['senior_school'];
       college.value = saveData['school'];
-      highest_qualification.value = saveData['highest_qualification'].toLowerCase();
       work.value = saveData['work'];
       nok_phone.value = saveData['nok_phone'];
       national_id.value = saveData['national_id'];
@@ -121,3 +112,32 @@ try {
 } catch (error) {
   // do nothing
 }
+
+/* Alerts */
+
+// Global JS alert function *uses sweetAlert2
+// for fast notifications like when admitting or waitlisting applicants
+async function triggerAlert(event) {
+  let data = event.detail;
+  Swal.fire({
+    position: data.position,
+    icon: data.type,
+    title: data.title,
+    footer: data.footer,
+    showConfirmButton: false,
+    timer: data.timer
+  });
+}
+
+// For Application Alerts
+// 1. A dispatch is sent by the server ('application_alert', via livewire)
+// 2. JS intercepts it, triggers an alert, and refreshs the page after the animation has finished
+// 3. Page refresh is necessary to sync the frontend with the backend changes
+// 4. Refresh triggers after ~1000 milliseconds (~the time it takes to finish an alert animation);
+// however, that time might be different in production so increase timeout if the animation is cut short
+window.addEventListener('application_alert', async(event)=>{
+  await triggerAlert(event);
+  setTimeout(() => {
+    location.reload();
+  }, 1000);
+});

@@ -13,7 +13,7 @@
         getCourses(capitalize);
         console.log(getCourses(capitalize));
     }
-    catch {
-        
+    catch(e) {
+        console.log(e)
     }
 </script>

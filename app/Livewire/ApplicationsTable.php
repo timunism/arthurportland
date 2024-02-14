@@ -15,6 +15,19 @@ class ApplicationsTable extends Component
     public $search = '';
     public $year = '';
     public $admission = '';
+    public $course_code = '';
+    public $sortBy = 'created_at';
+    public $sortDir = 'DESC';
+
+    public function setSortBy($field){
+        if ($this->sortBy === $field){
+            $this->sortDir = ($this->sortDir == "ASC") ? "DESC" : "ASC";
+            return;
+        }
+
+        $this->sortBy = $field;
+        $this->sortDir = 'DESC';
+    }
 
     public function render()
     {
@@ -31,6 +44,10 @@ class ApplicationsTable extends Component
         ->when($this->admission != '', function($query) {
             $query->where('registration_status', $this->admission);
         })
+        ->when($this->course_code != '', function($query) {
+            $query->where('course_code', $this->course_code);
+        })
+        ->orderBy('student_profile.'.$this->sortBy, $this->sortDir)
         ->paginate($this->perPage);
 
         return view('livewire.applications-table', [

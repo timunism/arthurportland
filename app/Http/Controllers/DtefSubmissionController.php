@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudentAcademicDetail;
+use App\Models\StudentCourseRegistration;
 use Illuminate\Support\Facades\Http;
 use App\Models\StudentRegister;
 use Illuminate\Support\Facades\Auth;
@@ -33,12 +35,25 @@ class DtefSubmissionController extends Controller {
 
     // request function
     public function entry($id) {
+        $register = StudentCourseRegistration::where('student_profile_id', $id)
+        ->join('student_courses',
+          'student_course_registration.course_id', '=', 'student_courses.id')
+        ->join('student_profile',
+          'student_course_registration.student_profile_id', '=', 'student_profile.id')
+        ->first();
+
+        $student_academic_detail = StudentAcademicDetail::where('student_profile_id', $id)->first();
+
+        // retrieve student data
+        $modules = $register->paper;
+        $modules = str_replace(';', ',', $modules);
+
         if (Auth::User()->role == 'admissions' || Auth::User()->role == 'admin') {
             try {
                 // you can also use environment variables or configuration files to store the API credentials and URL
                 $username = 'sooli@arthurportland.com';
                 $password = 'Decatic2021!';
-                $url = 'https://tef2.gov.bw/api/post/studentadmissions?_format=hal_json';
+                $url = 'https://tef2.gov.bw/api/post/studentregistration?_format=hal_json';
 
                 // Using Laravel HTTP client to retrieve the token from the Dtef API site
                 $tokenResponse = Http::withOptions([
@@ -56,51 +71,49 @@ class DtefSubmissionController extends Controller {
                     ->withOptions(([
                         'verify' => false
                 ]));
-
-                // retrieve student data
-                $result = StudentRegister::where('id', $id)->first();
                 
                 // convert data to dictionary
                 $data = [
-                    'type' => [
-                        ['target_id' => 'program_of_study']
-                    ],
-                    'title' => [
-                        ['value' => ' ']
-                    ],
                     'id' => [
-                        ['value' => $result->national_id]
+                        ['value' => $register->national_id]
+                    ],
+                    'names' => [
+                        ['value' => $register->fullname]
                     ],
                     'surname' => [
-                        ['value' => $result->surname]
+                        ['value' => $register->surname]
                     ],
-                    'firstname' => [
-                        ['value' => $result->firstname]
+                    'prog_name' => [
+                        ['value' => $register->course_name]
                     ],
-                    'institution' => [
-                        ['value' => $result->institution]
+                    'prog_code' => [
+                        ['value' => $register->course_code]
                     ],
-                    'institution_program_code' => [
-                        ['value' => $result->program_code]
+                    'inst' => [
+                        ['value' => "Arthur Portland College"]
                     ],
-                    'program_name' => [
-                        ['value' => $result->program_name]
+                    'campus' => [
+                        ['value' => "Off Campus"]
                     ],
-                    'program_duration' => [
-                        ['value' => $result->program_duration]
+                    'accomo' => [
+                        ['value' => "off"]
                     ],
-                    'start_date' => [
-                        ['value' => $result->start_date]
+                    'study_year' => [
+                        ['value' => $register->study_year]
                     ],
-                    'completion_date' => [
-                        ['value' => $result->completion_date]
-                    ],
-                    'entry_level' => [
+                    'study_semester' =>[
                         ['value' => 1]
                     ],
-                    'cost' => [
-                        ['value' => $result->program_cost]
+                    'sem_start_date' => [
+                        ['value' => $register->sem_start_date]
+                    ],
+                    'sem_end_date' => [
+                        ['value' => $register->sem_end_date]
+                    ],
+                    'modules'=>[
+                        ['value' => $register->paper]
                     ]
+
                 ];
 
                 // Use the defined client instance to send the post request

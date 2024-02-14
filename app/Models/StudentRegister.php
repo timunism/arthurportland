@@ -18,8 +18,6 @@ class StudentRegister extends Model
         'gender',
         'national_id',
         'tr_number',
-        'date_of_birth',
-        'contact',
         'program_code',
         'program_description',
         'year_of_study',

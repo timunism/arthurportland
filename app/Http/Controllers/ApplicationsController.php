@@ -7,6 +7,7 @@ use App\Models\StudentCourseRegistration;
 use Illuminate\Http\Request;
 use App\Models\StudentProfile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationsController extends Controller
 {
@@ -42,6 +43,19 @@ class ApplicationsController extends Controller
                                     ->update(['registration_status'=>'admitted']);
       });
 
+      // Send eMail Notification to Student
+      $student = StudentProfile::where('id', $id)->first();
+      try {
+        $email_data = [
+            // pass student data to applications.mail-admitted view
+            'student' => $student,
+        ];
+        Mail::send('applications.mail-admitted', $email_data, function ($message) use ($student){
+          $message->to($student->email)->subject('Application Notification');
+        });
+      } catch (\Throwable $th) {
+        // do nothing...for now
+      }
       return view('applications.index');
     }
 
