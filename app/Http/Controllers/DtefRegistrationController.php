@@ -121,8 +121,12 @@ class DtefRegistrationController extends Controller {
 
                 if ($response->successful()) {
                     // Do something with the successful response
+                    StudentRegister::where('id', $register->id)
+                        ->update(['dtef_register'=>'successful']);
                 } else {
                     // Do something with the failed response
+                    StudentRegister::where('id', $register->id)
+                    ->update(['dtef_register'=>'failed']);
                 }
 
                 // Return the response or a boolean value indicating the success or failure of the operation

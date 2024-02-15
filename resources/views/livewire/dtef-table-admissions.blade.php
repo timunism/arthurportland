@@ -44,7 +44,7 @@ $count = $initial_count - 1;
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                        <thead class="text-gray-700 uppercase bg-gray-50">
+                        <thead class="text-gray-700 text-xs uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-4 py-3">No.</th>
                                 <th scope="col" class="px-4 py-3">Fullname</th>

@@ -44,13 +44,14 @@ $count = $initial_count - 1;
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                        <thead class="text-gray-700 uppercase bg-gray-50">
+                        <thead class="text-gray-700 text-xs uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-4 py-3">No.</th>
                                 <th scope="col" class="px-4 py-3">Fullname</th>
                                 <th scope="col" class="px-4 py-3">Surname</th>
                                 <th scope="col" class="px-4 py-3">National ID</th>
                                 <th scope="col" class="px-4 py-3">Program Code</th>
+                                <th scope="col" class="px-4 py-3">Status</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
@@ -66,6 +67,7 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $student->surname }}</td>
                                     <td class="px-4 py-3">{{ $student->national_id }}</td>
                                     <td class="px-4 py-3">{{ $student->program_code }}</td>
+                                    <td class="px-4 py-3">{{ $student->dtef_register }}</td>
                                     <td class="px-4 py-3">
                                     <a href="{{ route('dtef.editregistration', $student->id) }}" wire:navigate class="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded">View</a>
                                     <a href="{{ route('dtefregistration.entry', $student->id)}}" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">Submit</a>
