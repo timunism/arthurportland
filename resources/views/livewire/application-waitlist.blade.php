@@ -1,3 +1,8 @@
+{{-- 
+    NOTE: @props is only for anynomous components. 
+    so to get it to work here, I declared a public variable '$id'
+    on this component's class.
+--}}
 @props(['id'])
 <a id="waitlistButton" href="#"
    wire:click="waitlist({{ $id }})"

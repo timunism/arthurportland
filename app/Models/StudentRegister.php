@@ -38,7 +38,7 @@ class StudentRegister extends Model
     ];
 
     public function scopeSearch($query, $value) {
-        $query->where('sponsor', 'Dept Of Tertiary Education Financing')
+        $query->where('sponsor', 'dtef')
         ->where('fullname', 'like', "%{$value}%")
         ->orWhere('surname', 'like', "%{$value}%")
         ->orWhere('program_code', 'like', "%{$value}%");

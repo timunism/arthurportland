@@ -2,31 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FacultyProfile;
 use App\Models\StudentRegister;
 use App\Models\RegisterFaculty;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
+use App\Models\StudentCourseRegistration;
 
 class DashboardController extends Controller
 {
     public function index() {
+        // For Realtime Deactivations
+        if (Auth::User()) {
+            if(Auth::User()->status != 'active') {
+                abort(403, 'You have been logged out by the admin');
+            }
+        }
         if (Auth::User() != 'student' && Auth::User() != 'applicant') {
             // Query Students
             $students = StudentRegister::where('student_status', 'active')->paginate(10);
             // Query Access Rights
             $role= Role::where('role', Auth::User()->role)->first();
 
-            if ($role->access == 'records' || $role->access == 'unrestricted') {
+            if ($role->access == 'records' || 
+                $role->access == 'unrestricted' ||
+                $role->access == 'admissions') {
                 $femaleStudents = studentTotals('male', 'student_status', 'active');
                 $maleStudents = studentTotals('female', 'student_status', 'active');
-                $hods = 18; // total HODs
-                $lecturers = 71; // total Lectures
-                $dtefFemale = 45;
-                $dtefMale = 20;
-                $dtefFailed = 3; // dtef failed submissions
-                $dtefSuccessful = ($dtefFemale + $dtefMale) - $dtefFailed; // dtef successful
+
+                // total HODs
+                $hods = FacultyProfile::where('approval', 'approved')
+                        ->where('role', 'hod')->count();
+                // total Lectures
+                $lecturers = FacultyProfile::where('approval', 'approved')
+                        ->where('role', 'lecturer')->count();
+                // total examinations officers
+                $exam_officers = FacultyProfile::where('approval', 'approved')
+                        ->where('role', 'examinations_officer')->count();
+                // total edmissions officers
+                $admission_officers = FacultyProfile::where('approval', 'approved')
+                        ->where('role', 'admissions_officer')->count(); 
+                // total edmissions officers
+                $academic_registrars = FacultyProfile::where('approval', 'approved')
+                        ->where('role', 'academic_registrar')->count();         
+                $dtefFemale = StudentRegister::where('gender', 'female')
+                        ->where('sponsor', 'dtef')->count();
+                $dtefMale = StudentRegister::where('gender', 'male')
+                        ->where('sponsor', 'dtef')->count();
+
+                // dtef register submissions
+                $dtefRegisterFailed = StudentRegister::where('sponsor', 'dtef')
+                        ->where('dtef_register', 'failed')->count();
+                $dtefRegisterSuccessful = StudentRegister::where('sponsor', 'dtef')
+                        ->where('dtef_register', 'successful')->count();
+                $dtefRegisterPending = StudentRegister::where('sponsor', 'dtef')
+                        ->where('dtef_register', 'pending')->count();
+                    
+                // dtef results submissions
+                $dtefResultsFailed = StudentRegister::where('sponsor', 'dtef')
+                        ->where('dtef_result', 'failed')->count();
+                $dtefResultsSuccessful = StudentRegister::where('sponsor', 'dtef')
+                        ->where('dtef_result', 'successful')->count();
+                $dtefResultsPending = StudentRegister::where('sponsor', 'dtef')
+                        ->where('dtef_result', 'pending')->count(); 
             }
             else {
                 $femaleStudents = 0; // Assign Class Female Students
@@ -36,7 +76,6 @@ class DashboardController extends Controller
                 $dtefFemale = 45; // Class Dtef Female Students
                 $dtefMale = 20; // Class Dtef Male Students
                 $dtefFailed = 3; // dtef failed submissions
-                $dtefSuccessful = ($dtefFemale + $dtefMale) - $dtefFailed; // dtef successful
             }
 
             return view('dashboard', [
@@ -48,10 +87,19 @@ class DashboardController extends Controller
                 'maleStudents'=>$maleStudents,
                 'hods'=>$hods,
                 'lecturers'=>$lecturers,
+                'academic_registrars'=>$academic_registrars,
+                'exam_officers'=>$exam_officers,
+                'admissions_officers'=>$admission_officers,
                 'dtefMale'=>$dtefMale,
                 'dtefFemale'=>$dtefFemale,
-                'dtefSuccessful'=>$dtefSuccessful,
-                'dtefFailed'=>$dtefFailed,
+                # DTEF Register
+                'dtefRegisterPending'=>$dtefRegisterPending,
+                'dtefRegisterSuccessful'=>$dtefRegisterSuccessful,
+                'dtefRegisterFailed'=>$dtefRegisterFailed,
+                # DTEF Results
+                'dtefResultsPending'=>$dtefResultsPending,
+                'dtefResultsSuccessful'=>$dtefResultsSuccessful,
+                'dtefResultsFailed'=>$dtefResultsFailed,
             ]);
         }
         else if (Auth::User()->role == 'student') {
@@ -73,12 +121,10 @@ function studentTotals($gender, $column, $target) {
     return $total;
 }
 
-function facultyRetriever($column, $target, $total){
-    if ($total == true) {
-        $data = RegisterFaculty::where($column, $target)->paginate()->total();
-    }
-    else {
-        $data = RegisterFaculty::where($column, $target)->paginate();
-    }
-    return $data;
+function retrieveStaff(){
+    $staff = FacultyProfile::where('approval', 'approved')
+            ->join('users',
+                'faculty_profile.email', '=', 'users.email'
+            )->get();
+    return $staff;
 }

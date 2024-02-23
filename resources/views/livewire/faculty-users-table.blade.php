@@ -1,6 +1,7 @@
-<?php
+<?php 
+use App\Models\FacultyProfile;
 /* Dynamic Numbering System for Paginated Tables */
-$current_page = $students->currentPage;
+$current_page = $faculty_users->currentPage;
 $initial_count = 1;
 
 // We start counting from 1 on the first page, from x on every other page
@@ -12,7 +13,7 @@ $count = $initial_count - 1;
 ?>
 <div>
     <section class="mt-10">
-        <x-componable.table-header title='DTEF Admissions' />
+        <x-componable.table-header title='Staff Members' />
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                 <div class="flex items-center justify-between pb-4 pl-4 pr-4 pt-16">
@@ -33,14 +34,16 @@ $count = $initial_count - 1;
                     </div>
                     <div class="flex space-x-8">
                         <div class="flex space-x-0 items-center">
-                            <label class="ml-4 mr-0 w-32 text-sm font-medium dark:text-gray-500 text-gray-900">Year:</label>
+                            <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Year:</label>
                             <select wire:model.live="year"
-                                class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  block p-2.5 pr-8">
                                 <option value="">All</option>
+                                <option value="2022">2022</option>
                                 <option value="2023">2023</option>
                                 <option value="2024">2024</option>
                             </select>
                         </div>
+
                         <div class="flex items-center">
                             <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Course:</label>
                             <select wire:model.live="course_code" id="course_code"
@@ -55,71 +58,72 @@ $count = $initial_count - 1;
                         </div>
 
                         <div class="flex items-center">
-                            <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Submission:</label>
-                            <select wire:model.live="submission"
+                            <label class="mr-3 text-sm font-medium dark:text-gray-500 text-gray-900">Admission:</label>
+                            <select wire:model.live="admission"
                                 class="bg-gray-50 border dark:bg-gray-800 dark:text-gray-500 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-8">
                                 <option value="">All</option>
                                 <option value="pending">Pending</option>
-                                <option value="successful">Successful</option>
-                                <option value="failed">Failed</option>
+                                <option value="admitted">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="waitlisted">Waitlisted</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                        <thead class="text-gray-700 text-xs uppercase bg-gray-50">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">
-                                    @include('livewire.includes.sort-button', [
-                                        "name"=>"id",
-                                        "displayName"=>"ID"
-                                    ])
-                                </th>
+                                <th scope="col" class="px-4 py-3">No.</th>
                                 <th scope="col" class="px-4 py-3" wire:click="setSortBy('fullname')">
                                     @include('livewire.includes.sort-button', [
                                         "name"=>"fullname",
-                                        "displayName"=>"Fullname"
+                                        "displayName"=>"FULLNAME"
                                     ])
                                 </th>
                                 <th scope="col" class="px-4 py-3" wire:click="setSortBy('surname')">
                                     @include('livewire.includes.sort-button', [
                                         "name"=>"surname",
-                                        "displayName"=>"Surname"
+                                        "displayName"=>"SURNAME"
                                     ])
                                 </th>
-                                <th scope="col" class="px-4 py-3">National ID</th>
-                                <th scope="col" class="px-4 py-3">Program Code</th>
+                                <th scope="col" class="px-4 py-3" wire:click="setSortBy('gender')">
+                                    @include('livewire.includes.sort-button', [
+                                        "name"=>"gender",
+                                        "displayName"=>"GENDER"
+                                    ])
+                                </th>
+                                <th scope="col" class="px-4 py-3">Omang</th>
+                                <th scope="col" class="px-4 py-3">Department</th>
                                 <th scope="col" class="px-4 py-3">Status</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($students as $student)
+                            @foreach ($faculty_users as $faculty)
                                 <?php $count += 1; ?>
                                 <tr wire:key="1" class="border-b dark:border-gray-700">
-                                    <td class="px-4 py-3 text-black font-semibold">{{ $student->id }}</td>
-                                    <td class="px-4 py-3">{{ $student->fullname }}</td>
-                                    <td class="px-4 py-3">{{ $student->surname }}</td>
-                                    <td class="px-4 py-3">{{ $student->national_id }}</td>
-                                    <td class="px-4 py-3">{{ $student->program_code }}</td>
-                                    <td class="px-4 py-3">{{ $student->dtef_admission }}</td>
+                                    <th scope="row"
+                                        class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $count }}
+                                    </th>
+                                    <td class="px-4 py-3">{{ $faculty->fullname }}</td>
+                                    <td class="px-4 py-3">{{ $faculty->surname }}</td>
+                                    <td class="px-4 py-3">{{ $faculty->gender }}</td>
+                                    <td class="px-4 py-3">{{ $faculty->omang}}</td>
+                                    <td class="px-4 py-3">{{ $faculty->course_code }}</td>
+                                    <td class="px-4 py-3">{{ $faculty->approval }}</td>
                                     <td class="px-4 py-3">
-                                    <a href="{{ route('dtef.editadmission', $student->id) }}" wire:navigate class="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded">View</a>
-                                    @if ($student->dtef_admission !== 'successful')
-                                        <a href="{{ route('dtefadmission.entry', $student->id)}}" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">Submit</a>
-                                    @else
-                                        <span class="px-3 py-1 border border-green-600 text-green-600 font-semibold rounded">Sent</span>
-                                    @endif
+                                    <?php 
+                                    $user_id = FacultyProfile::where('email', $faculty->email)->first();
+                                    ?>
+                                    <a href="{{ route('faculty.edit', $user_id->id)}}" wire:navigate class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">View</a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>                   
-                <div class="flex justify-center mt-5 ">
-                    <a href="{{ route('dtefsubmission.bulk')}}" class="px-3 py-1 border-2 border-green-500 bg-transparent text-green-500 font-semibold rounded">Bulk Submission</a>
-                </div>
                 <div class="py-4 px-3">
                     <div class="flex ">
                         <div class="flex space-x-4 items-center mb-3">
@@ -135,9 +139,10 @@ $count = $initial_count - 1;
                             </select>
                         </div>
                     </div>
-                    {{ $students->links() }}
+                    {{ $faculty_users->links() }}
                 </div>
             </div>
         </div>
     </section>
 </div>
+

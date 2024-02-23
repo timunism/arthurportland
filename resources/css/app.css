@@ -5,6 +5,10 @@
 .hidden {
   display: none;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}
 .edit-table {
   font-size: 1rem;
 }

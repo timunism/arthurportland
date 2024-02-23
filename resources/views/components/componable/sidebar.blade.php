@@ -35,14 +35,22 @@ if (Auth::User()) {
 }
 # Retrieve current page URI
 # This is sent to the client, and then processed by javascript to highlight the current link
-$currentSelection = request()->route()->uri();
-$currentSelection = explode('/', $currentSelection);
-$currentSelection = $currentSelection[0];
-if ($currentSelection === 'dtef') {
-   $extendedSelection = $currentSelection[1];
-}
-else {
-   $extendedSelection = "none";
+$currentSelection = explode('/', request()->route()->uri());
+$currentUri = $currentSelection[0];
+
+# for Highlighting DTEF dropdown links
+# I'll move this to JavaScript in the coming updates
+$dtefUri = [
+      'admissions'=>'none',
+      'registrations'=>'none',
+      'results'=>'none'
+];
+$forDtef = $currentSelection[1] ?? 'none';
+foreach ($dtefUri as $key => $value) {
+   if ($key == $forDtef){
+      $dtefUri[$key] = 'dtef';
+      break;
+   }
 }
 ?>
 <aside id="sidebar" class="fixed hidden z-40 bg-theme-default h-full top-0 left-0 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75" aria-label="Sidebar">
@@ -79,24 +87,37 @@ else {
                         <span class="ml-3">Dashboard</span>
                      </a>
                   </li>
-                  @foreach ($view as $link)
-                  <li class="ml-3">
-                     <a id="{{ $link['uri'] }}" href="{{ route($link['route']) }}" wire:navigate class="async-link text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
-                        <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap">{{ $link['name'] }}</span>
-                     </a>
-                  </li>
-                  @endforeach
+                  @if (Auth::User()->role != 'examinations_officer')
+                     @foreach ($view as $link)
+                     <li class="ml-3">
+                        <a id="{{ $link['uri'] }}" href="{{ route($link['route']) }}" wire:navigate class="async-link text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
+                           <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                           </svg>
+                           <span class="ml-3 flex-1 whitespace-nowrap">{{ $link['name'] }}</span>
+                        </a>
+                     </li>
+                     @endforeach
+                  @endif
+                  @if (Auth::User()->access == 'admissions' || Auth::User()->access == 'unrestricted')
+                     <li class="ml-3">
+                        <a id="faculty" href="{{ route('faculty.index') }}" wire:navigate class="async-link text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
+                           <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                           </svg>
+                           <span class="ml-3 flex-1 whitespace-nowrap">Staff</span>
+                        </a>
+                     </li>
+                  @endif
                   @if (Auth::User()->access != 'individual')
                      <li class="ml-3">
                         <div class="relative" 
-                           @if ($currentSelection == 'dtef')
+                           @if ($currentUri == 'dtef')
                               x-data="{ open: true }"
                            @else
                               x-data="{ open: false }"
-                           @endif @click.outside="open = false" @close.stop="open = false">
+                           @endif 
+                           @click.outside="open = false" @close.stop="open = false">
                            <span id="" @click="open = ! open" class="cursor-pointer text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg flex items-center p-2 group ">
                               <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
@@ -123,26 +144,32 @@ else {
                                  x-transition:leave-end="opacity-0 scale-95"
                                  class="absolute z-50 mt-2 w-48 rounded-md shadow-lg ltr:origin-top-left rtl:origin-top-right start-0"
                                  style="display: none;"
-                                 @click="open = false">
+                                 >
                               <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 px-2 border border-theme-light dark:bg-gray-700">
-                                 <a id="<?php if($extendedSelection=='admissions'){echo 'dtef';}?>" href="{{ route('dtef.admissions') }}" wire:navigate class="async-link my-1 text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
-                                    <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
-                                    </svg>
-                                    <span class="ml-3 flex-1 whitespace-nowrap">Admissions</span>
-                                 </a>
-                                 <a id="<?php if($extendedSelection=='registrations'){echo 'dtef';}?>" href="{{ route('dtef.registrations') }}" wire:navigate class="async-link text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
-                                    <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
-                                    </svg>
-                                    <span class="ml-3 flex-1 whitespace-nowrap">Registrations</span>
-                                 </a>
-                                 <a id="<?php if($extendedSelection=='results'){echo 'dtef';}?>" href="{{ route('dtef.results') }}" wire:navigate class="async-link my-1 text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-theme-light flex items-center p-2 group ">
-                                    <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
-                                    </svg>
-                                    <span class="ml-3 flex-1 whitespace-nowrap">Results</span>
-                                 </a>
+                                 @if (Auth::User()->role != 'examinations_officer' 
+                                       && Auth::User()->role != 'lecture'
+                                       && Auth::User()->role != 'hod')
+                                    <a id="{{ $dtefUri['admissions'] }}" href="{{ route('dtef.admissions') }}" wire:navigate class="async-link my-1 text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-[#702c8f99] flex items-center p-2 group ">
+                                       <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                                       </svg>
+                                       <span class="ml-3 flex-1 whitespace-nowrap">Admissions</span>
+                                    </a>
+                                    <a id="{{ $dtefUri['registrations'] }}" href="{{ route('dtef.registrations') }}" wire:navigate class="async-link text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-[#702c8f99] flex items-center p-2 group ">
+                                       <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                                       </svg>
+                                       <span class="ml-3 flex-1 whitespace-nowrap">Registrations</span>
+                                    </a>
+                                 @endif
+                                 @if (Auth::User()->role != 'lecturer' && Auth::User()->role != 'hod')
+                                    <a id="{{ $dtefUri['results'] }}" href="{{ route('dtef.results') }}" wire:navigate class="async-link my-1 text-base dark:hover:text-white dark:hover:bg-gray-700 text-gray-300 dark:text-gray-400 font-normal rounded-lg hover:bg-[#702c8f99] flex items-center p-2 group ">
+                                       <svg class="w-6 h-6 dark:group-hover:text-white text-gray-300 flex-shrink-0 group-hover:scale-90 transition duration-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                                       </svg>
+                                       <span class="ml-3 flex-1 whitespace-nowrap">Results</span>
+                                    </a>
+                                 @endif
                               </div>
                            </div>
                      </div>
@@ -172,7 +199,7 @@ else {
        </div>
     </div>
     {{-- URI sent by the server is rendered here --}}
-   <span id="currentUri" class="{{ $currentSelection }}"></span>
+   <span id="currentUri" class="{{ $currentUri }}"></span>
    <script data-navigate-track>
    // Retrieve element with id currentUri
    var currentPage = document.getElementById('currentUri');

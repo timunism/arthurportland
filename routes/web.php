@@ -7,10 +7,13 @@ use App\Http\Controllers\ApplicationsController;
 use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DtefController;
-use App\Http\Controllers\DtefSubmissionController;
+use App\Http\Controllers\DtefAdmissionController;
+use App\Http\Controllers\DtefResultController;
 use App\Http\Controllers\DtefRegistrationController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Console\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,13 +65,13 @@ Route::get('dtef/results/edit/{id}', [DtefController::class, 'editresult'])
 Route::resource('dtef', DtefController::class)
     ->middleware(['auth']);
 
-Route::get('dtefsubmission/bulk', [DtefSubmissionController::class, 'bulk'])
+Route::get('dtefsubmission/bulk', [DtefAdmissionController::class, 'bulk'])
     ->middleware(['auth'])
     ->name('dtefsubmission.bulk');
 
-Route::get('dtefsubmission/entry/{id}', [DtefSubmissionController::class, 'entry'])
+Route::get('dtefadmission/entry/{id}', [DtefAdmissionController::class, 'entry'])
     ->middleware(['auth'])
-    ->name('dtefsubmission.entry');
+    ->name('dtefadmission.entry');
 
 Route::get('dtefregistration/entry/{id}', [DtefRegistrationController::class, 'entry'])
     ->middleware(['auth'])
@@ -78,12 +81,13 @@ Route::get('dtefregistration/bulk', [DtefRegistrationController::class, 'bulk'])
     ->middleware(['auth'])
     ->name('dtefregistration.bulk');
 
-Route::get('dtefadmission/entry/{id}', [DtefSubmissionController::class, 'admission'])
+Route::get('dtefresult/bulk', [DtefResultController::class, 'bulk'])
     ->middleware(['auth'])
-    ->name('dtefadmission.entry');
+    ->name('dtefresult.bulk');
 
-Route::resource('dtefsubmission', DtefSubmissionController::class)
-    ->middleware(['auth']);
+Route::get('dtefresult/entry/{id}', [DtefResultController::class, 'entry'])
+    ->middleware(['auth'])
+    ->name('dtefresult.entry');
 
 Route::get('applications/admit/{id}', [ApplicationsController::class, 'admit'])
     ->middleware(['auth'])
@@ -100,8 +104,13 @@ Route::get('/pulse', [PulseController::class, 'index'])
 Route::get('/apply/standard', [ApplyController::class, 'standard'])
     ->name('apply.standard');
 
+Route::get('/apply/faculty', [ApplyController::class, 'facultyapplication'])
+    ->name('apply.faculty');
+
 Route::get('/apply/chatbot', [ApplyController::class, 'chatbot'])
     ->name('apply.chatbot');
+
+Route::resource('faculty', FacultyController::class);
 
 Route::resource('apply', ApplyController::class)
     ->middleware(['auth']);

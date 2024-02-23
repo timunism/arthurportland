@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -28,6 +29,16 @@ class LoginForm extends Form
      */
     public function authenticate(): void
     {
+        // Check whether email is active or not
+        $user = User::where('email', $this->email)->first();
+        if (Auth::User()){
+            if ($user->status == 'deactivated'){
+                abort(403, 'You account has been deactivated');
+            }
+            if ($user->status == 'suspended') {
+                abort(403, 'You account has been suspended, and is pending review.');
+            }
+        }
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {

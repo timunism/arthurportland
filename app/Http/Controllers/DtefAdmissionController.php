@@ -6,6 +6,8 @@ use App\Models\StudentAcademicDetail;
 use App\Models\StudentCourseRegistration;
 use Illuminate\Support\Facades\Http;
 use App\Models\StudentRegister;
+use DateTime;
+use DateTimeInterface;
 use Illuminate\Support\Facades\Auth;
 
 class DtefAdmissionController extends Controller {
@@ -15,6 +17,11 @@ class DtefAdmissionController extends Controller {
 
      // this function uses entry() to run bulk submissions
     public function bulk() {
+        if (Auth::User()) {
+            if(Auth::User()->status != 'active') {
+                abort(403, 'You have been logged out by the admin');
+            }
+        }
         $students = StudentRegister::all();
         $ids = [];
         
@@ -41,14 +48,10 @@ class DtefAdmissionController extends Controller {
         ->join('student_profile',
           'student_course_registration.student_profile_id', '=', 'student_profile.id')
         ->first();
+        # program duration
+        $program_duration = intval($register->completion_date) - intval($register->start_date);
 
-        $student_academic_detail = StudentAcademicDetail::where('student_profile_id', $id)->first();
-
-        // retrieve student data
-        $modules = $register->paper;
-        $modules = str_replace(';', ',', $modules);
-
-        if (Auth::User()->role == 'admissions' || Auth::User()->role == 'admin') {
+        if (Auth::User()->access='admissions' || Auth::User()->role == 'admin') {
             try {
                 // you can also use environment variables or configuration files to store the API credentials and URL
                 $username = 'sooli@arthurportland.com';
@@ -74,45 +77,45 @@ class DtefAdmissionController extends Controller {
                 
                 // convert data to dictionary
                 $data = [
+                    'type' => [
+                        ['target_id' => 'program_of_study']
+                    ],
+                    'title' => [
+                        ['value' => ""]
+                    ],
                     'id' => [
                         ['value' => $register->national_id]
-                    ],
-                    'names' => [
-                        ['value' => $register->fullname]
                     ],
                     'surname' => [
                         ['value' => $register->surname]
                     ],
-                    'prog_name' => [
-                        ['value' => $register->course_name]
+                    'firstname' => [
+                        ['value' => $register->fullname]
                     ],
-                    'prog_code' => [
-                        ['value' => $register->course_code]
-                    ],
-                    'inst' => [
+                    'institution' => [
                         ['value' => "Arthur Portland College"]
                     ],
-                    'campus' => [
-                        ['value' => "Off Campus"]
+                    'institution_program_code' => [
+                        ['value' => $register->course_code]
                     ],
-                    'accomo' => [
-                        ['value' => "off"]
+                    'program_name' => [
+                        ['value' => $register->course_name]
                     ],
-                    'study_year' => [
-                        ['value' => $register->study_year]
+                    'program_duration' => [
+                        ['value' => $program_duration]
                     ],
-                    'study_semester' =>[
-                        ['value' => 1]
+                    'start_date' => [
+                        ['value' => date('d M Y',strtotime($register->start_date))]
                     ],
-                    'sem_start_date' => [
-                        ['value' => $register->sem_start_date]
+                    'completion_date' => [
+                        ['value' => date('d M Y',strtotime($register->completion_date))]
                     ],
-                    'sem_end_date' => [
-                        ['value' => $register->sem_end_date]
+                    'entry_level' => [
+                        ['value' => $register->entry_level]
                     ],
-                    'modules'=>[
-                        ['value' => $register->paper]
-                    ]
+                    'cost' =>[
+                        ['value' => $register->course_cost]
+                    ],
 
                 ];
 
@@ -121,8 +124,12 @@ class DtefAdmissionController extends Controller {
 
                 if ($response->successful()) {
                     // Do something with the successful response
+                    StudentRegister::where('id', $register->id)
+                        ->update(['dtef_admission'=>'successful']);
                 } else {
                     // Do something with the failed response
+                    StudentRegister::where('id', $register->id)
+                    ->update(['dtef_admission'=>'failed']);
                 }
 
                 // Return the response or a boolean value indicating the success or failure of the operation
@@ -132,14 +139,16 @@ class DtefAdmissionController extends Controller {
             // Catch any errors and return them as JSON
              catch (\Throwable $error) {
                 $message = [
+                    "api"=>"dtef-admission",
                     "Error"=>$error->getMessage(),
-                    "Timestamp"=>date("Y:M:D:H:i:s")
+                    "Timestamp"=>date("Y:M:D:H:i:s"),
                 ];
                 return $message;
             }
         }
         else {
             $message = [
+                "api"=>"dtef-admission",
                 "user"=>Auth::User()->email,
                 "alert"=>"You are not authorized to perform this request",
                 "timestamp"=>date("Y:M:D:H:i:s")

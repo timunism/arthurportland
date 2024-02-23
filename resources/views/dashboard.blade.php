@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        @if (Auth::User()->role == 'admin')
+        @if (Auth::User()->access == 'admin')
             <x-componable.dashboard-elevated />
         @endif
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -83,18 +83,44 @@
                                     size="w-35"
                                     />
                                 </div>
+                                <div class="my-6 mx-auto shadow dark:shadow-slate-900 shadow-slate-300 rounded-lg">
+                                    <div class="p-4">
+                                        {{-- Begin Actual Chart --}}
+                                        <x-componable.chart
+                                            type="doughnut"
+                                            label="DTEF Students (2023 - 2024)"
+                                            xlist="['Male','Female']"
+                                            ylist="[{{ $dtefMale }},{{ $dtefFemale }}]"
+                                            colors="['rgb(168,83,233)','rgba(85,83,233)']"
+                                            size="w-35"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div class="bg-white dark:bg-gray-800 shadow dark:shadow-slate-900 shadow-slate-300 rounded-lg p-4 sm:p-6 xl:p-8">
                                 <div class="my-6 mx-auto">
                                     {{-- Begin Actual Chart --}}
                                     <x-componable.chart
                                     type="bar"
-                                    label="DTEF Submissions (Latest)"
-                                    xlist="['Successful','Failed']"
-                                    ylist="[{{ $dtefSuccessful }},{{ $dtefFailed }}]"
-                                    colors="['rgb(232,140,78)','rgb(242,7,234)']"
-                                    size="w-35"
+                                    label="DTEF Register Submissions"
+                                    xlist="['Pending','Successful','Failed']"
+                                    ylist="[{{ $dtefRegisterPending }},{{ $dtefRegisterSuccessful }},{{ $dtefRegisterFailed }}]"
+                                    colors="['rgb(0,238,230)','rgb(39,255,39)','rgb(242,7,140)']"
+                                    size="w-42"
                                     />
+                                </div>
+                                <div class="my-6 mx-auto shadow dark:shadow-slate-900 shadow-slate-300 rounded-lg">
+                                    <div class="p-4">
+                                        {{-- Begin Actual Chart --}}
+                                        <x-componable.chart
+                                            type="doughnut"
+                                            label="DTEF Results Students (2023 - 2024)"
+                                            xlist="['Male','Female']"
+                                            ylist="[{{ $dtefMale }},{{ $dtefFemale }}]"
+                                            colors="['rgb(168,83,233)','rgba(85,83,233)']"
+                                            size="w-35"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

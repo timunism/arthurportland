@@ -141,3 +141,115 @@ window.addEventListener('application_alert', async(event)=>{
     location.reload();
   }, 1000);
 });
+
+window.addEventListener('faculty_application_alert', (event)=>{
+  let data = event.detail;
+  Swal.fire({
+    position: data.position,
+    icon: data.type,
+    title: data.title,
+    footer: data.footer,
+    showConfirmButton: true,
+    timer: data.timer
+  });
+  setTimeout(() => {
+    location.reload()
+  }, 8000);
+});
+
+// FORM VALIDATIONS
+const omang = document.getElementById('omang');
+const email = document.getElementById('email');
+const phone = document.getElementById('phone');
+const fullname = document.getElementById('fullname');
+const surname = document.getElementById('surname');
+
+// omang validation
+omang.addEventListener('blur', ()=>{
+  if (omang.value.length < 9 || omang.value.length > 9) {
+    omang.value = '';
+    errorAlert('omang should be exactly 9 numbers', 'Omang')
+  }
+});
+
+// email validation
+email.addEventListener('blur', ()=>{
+  email.value = isEmail(email.value);
+});
+
+// phone number validation
+phone.addEventListener('blur', ()=>{
+  isPhoneNumber(phone.value);
+});
+
+// fullname validation
+fullname.addEventListener('blur', ()=>{
+  let verifyName = isName(fullname.value);
+  if (verifyName == 'not_name') {
+    fullname.value = '';
+  }
+});
+
+function isName(text) {
+  text = text.trim();
+  if (text.length < 2) {
+    errorAlert('invalid length', 'Name');
+    return 'not_name';
+  }
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    // char is a number
+    if (!char.includes(' ') && String(Number(char)) != 'NaN') {
+      console.log('Char >>',String(Number(char)));
+      errorAlert('invalid name', 'Name');
+      return 'not_name'
+    }
+  }
+}
+
+function isEmail(email) {
+  email = email.toLowerCase();
+  if (email.includes('@')) {
+    let validateEmail = email.split('@');
+    console.log(validateEmail);
+    if (validateEmail.length == 2) {
+      if (!validateEmail[1].includes('.')){
+        errorAlert('invalid domain format', 'Email');
+        return '';
+      }
+      else {
+        return email;
+      }
+    }
+    else {
+      errorAlert('invalid email format', 'Email');
+      return '';
+    }
+  }
+  else {
+    errorAlert('no email provided', 'Email');
+    return '';
+  }
+}
+
+function isPhoneNumber(cell) {
+  const phoneRegex = /^\+?\d{1,3}-?\d{3}-?\d{3}-?\d{4}$/; // Matches phone numbers with optional "+" symbol and optional hyphens
+
+  if (phoneRegex.test(cell)) {
+    console.log('Real Phone Number')
+  } else {
+    errorAlert('invalid phone number', 'Phone Number');
+  }
+}
+
+function errorAlert(message, title) {
+  Swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: `${title} Input Error`,
+    footer: message,
+    cancelButton: true,
+    timer: false
+  });
+}
+

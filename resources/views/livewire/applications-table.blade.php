@@ -12,9 +12,10 @@ $count = $initial_count - 1;
 ?>
 <div>
     <section class="mt-10">
+        <x-componable.table-header title='Applications' />
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                <div class="flex items-center justify-between p-4">
+                <div class="flex items-center justify-between pb-4 pl-4 pr-4 pt-16">
                     <div class="flex">
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -62,8 +63,8 @@ $count = $initial_count - 1;
                                 <option value="">All</option>
                                 <option value="pending">Pending</option>
                                 <option value="admitted">Admitted</option>
-                                <option value="rejected">Rejected</option>
                                 <option value="waitlisted">Waitlisted</option>
+                                <option value="rejected">Rejected</option>
                             </select>
                         </div>
                     </div>
@@ -97,8 +98,8 @@ $count = $initial_count - 1;
                                         "displayName"=>"Gender"
                                     ])
                                 </th>
-                                <th scope="col" class="px-4 py-3">National ID</th>
-                                <th scope="col" class="px-4 py-3">Course Code</th>
+                                <th scope="col" class="px-4 py-3">Omang</th>
+                                <th scope="col" class="px-4 py-3">Department</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>

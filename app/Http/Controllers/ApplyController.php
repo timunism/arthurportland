@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApplicationRequest;
+use App\Models\FacultyProfile;
 use App\Models\StudentAcademicDetail;
 use App\Models\StudentCourse;
 use App\Models\StudentCoursePaper;
@@ -29,6 +30,11 @@ class ApplyController extends Controller
     public function index()
     {
         return view('apply.index');
+    }
+
+    public function facultyapplication()
+    {
+        return view('apply.faculty');
     }
 
     public function standard() {

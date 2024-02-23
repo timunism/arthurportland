@@ -16,5 +16,4 @@
           {{ $status }}
        </div>
     </div>
-    <div id="main-chart"></div>
  </div>

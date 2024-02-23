@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExaminationResult;
 use App\Models\StudentAcademicDetail;
 use App\Models\StudentCourseRegistration;
 use Illuminate\Support\Facades\Http;
 use App\Models\StudentRegister;
 use Illuminate\Support\Facades\Auth;
 
-class DtefRegistrationController extends Controller {
+class DtefResultController extends Controller {
 
     # entry() is a function for running a request, one entry at a time
     # bulk() is for bulk requests
@@ -52,6 +53,11 @@ class DtefRegistrationController extends Controller {
           'student_course_registration.student_profile_id', '=', 'student_profile.id')
         ->first();
 
+        $results = StudentRegister::where('student_profile_id', $id)
+        ->join('examination_results',
+            'student_register.student_id', '=', 'examination_results.student_id')
+        ->first();
+
         // retrieve student data
         $modules = $register->paper;
         $modules = str_replace(';', ',', $modules);
@@ -85,41 +91,29 @@ class DtefRegistrationController extends Controller {
                     'id' => [
                         ['value' => $register->national_id]
                     ],
+                    'tr' => [
+                        ['value' => $register->tr_number]
+                    ],
                     'names' => [
                         ['value' => $register->fullname]
                     ],
                     'surname' => [
                         ['value' => $register->surname]
                     ],
-                    'prog_name' => [
-                        ['value' => $register->course_name]
-                    ],
-                    'prog_code' => [
-                        ['value' => $register->course_code]
-                    ],
-                    'inst' => [
-                        ['value' => "Arthur Portland College"]
-                    ],
-                    'campus' => [
-                        ['value' => "Off Campus"]
-                    ],
-                    'accomo' => [
-                        ['value' => "off"]
-                    ],
                     'study_year' => [
-                        ['value' => $register->study_year]
+                        ['value' => intval($register->start_date)]
                     ],
-                    'study_semester' =>[
+                    'study_semester' => [
                         ['value' => 1]
-                    ],
-                    'sem_start_date' => [
-                        ['value' => $register->sem_start_date]
-                    ],
-                    'sem_end_date' => [
-                        ['value' => $register->sem_end_date]
                     ],
                     'modules'=>[
                         ['value' => $modules]
+                    ],
+                    'results'=>[
+                        ['value' => $results->result]
+                    ],
+                    'status'=>[
+                        ['value'=>$results->outcome]
                     ]
 
                 ];
@@ -130,11 +124,11 @@ class DtefRegistrationController extends Controller {
                 if ($response->successful()) {
                     // Do something with the successful response
                     StudentRegister::where('id', $register->id)
-                        ->update(['dtef_register'=>'successful']);
+                        ->update(['dtef_result'=>'successful']);
                 } else {
                     // Do something with the failed response
                     StudentRegister::where('id', $register->id)
-                    ->update(['dtef_register'=>'failed']);
+                    ->update(['dtef_result'=>'failed']);
                 }
 
                 // Return the response or a boolean value indicating the success or failure of the operation
@@ -144,7 +138,7 @@ class DtefRegistrationController extends Controller {
             // Catch any errors and return them as JSON
              catch (\Throwable $error) {
                 $message = [
-                    "api"=>"dtef-registration",
+                    "api"=>"dtef-results",
                     "Error"=>$error->getMessage(),
                     "Timestamp"=>date("Y:M:D:H:i:s")
                 ];
@@ -153,7 +147,7 @@ class DtefRegistrationController extends Controller {
         }
         else {
             $message = [
-                "api"=>"dtef-registration",
+                "api"=>"dtef-results",
                 "user"=>Auth::User()->email,
                 "alert"=>"You are not authorized to perform this request",
                 "timestamp"=>date("Y:M:D:H:i:s")

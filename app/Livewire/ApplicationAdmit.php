@@ -18,6 +18,11 @@ class ApplicationAdmit extends Component
     public $student_ac;
 
     public function admit($id) {
+        if (Auth::User()) {
+            if(Auth::User()->status != 'active') {
+                abort(403, 'You have been logged out by the admin');
+            }
+        }
         // restrict unauthorized access
         if (!Auth::User()->access == 'unrestricted'){
             abort(403, $message='You are not authorized to perform this action');

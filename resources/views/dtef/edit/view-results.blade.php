@@ -6,9 +6,9 @@ $unavailable = 'not available';
     <div class="mt-6">
         {{-- Header Component Start --}}
         <x-componable.edit-header
-        title="DTEF Sponsored"
-        year="2023/2024"
-        status="active"
+        title="DTEF Result"
+        year="For the Year {{ $student_info->year_of_study }} | Semester {{ 1 }}"
+        status="{{ $student_info->student_status }}"
         backroute="dtef.results"
         navigate="true"
         />
@@ -27,6 +27,10 @@ $unavailable = 'not available';
                         <td>{{ $student_info->student_id ?? $unavailable }}</td>
                     </tr>
                     <tr>
+                        <th scope="col" class="px-6 py-2 text-gray-700">TR Number</th>
+                        <td>{{ $student_info->tr_number ?? $unavailable }}</td>
+                    </tr>
+                    <tr>
                         <th scope="col" class="px-6 py-2  bg-gray-100 text-gray-700">Name</th>
                         <td class="bg-gray-100">{{ $student_info->fullname ?? $unavailable }}</td>
                     </tr>
@@ -35,48 +39,24 @@ $unavailable = 'not available';
                         <td>{{ $student_info->surname ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Omang / Passport No.</th>
-                        <td class="bg-gray-100">{{ $student_info->national_id ?? $unavailable }}</td>
+                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Year of Study</th>
+                        <td class="bg-gray-100">{{ intval(date('Y'))-$student_info->year_of_study ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Date Of Birth</th>
-                        @if ($student_info->date_of_birth != '0000-00-00')
-                            <td>{{ $student_info->date_of_birth}}</td>
-                        @else
-                            <td>{{ $unavailable }}</td>
-                        @endif
+                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Current Semester</th>
+                        <td class="bg-gray-100">{{ 1 ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Gender</th>
-                        <td class="bg-gray-100">{{ $student_info->gender ?? $unavailable }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Sponsorship Status</th>
-                        <td>{{ $student_info->sponsorship_status ?? $unavailable }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Accomodation Status</th>
-                        <td class="bg-gray-100">{{ $student_info->accomodation_status ?? $unavailable }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Program Code</th>
-                        <td>{{ $student_info->program_code ?? $unavailable ?? $unavailable }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Subjects Enrolled</th>
+                        <th scope="col" class="px-6 py-2 text-gray-700">Modules</th>
                         <td>{{ $student_info->subjects_enrolled ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Year of Study</th>
-                        <td class="bg-gray-100">{{ $student_info->year_of_study?? $unavailable }}</td>
+                        <th scope="col" class="px-6 py-2 text-gray-700">Results</th>
+                        <td>{{ $results->result ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 text-gray-700">Email</th>
-                        <td>{{ $student_info->email ?? $unavailable }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Cell</th>
-                        <td class="bg-gray-100">{{ $student_info->contact?? $unavailable }}</td>
+                        <th scope="col" class="px-6 py-2 text-gray-700">Sponsorship Status</th>
+                        <td>{{ $student_info->sponsorship_status ?? $unavailable ?? $unavailable }}</td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-5 text-gray-700"></th>
