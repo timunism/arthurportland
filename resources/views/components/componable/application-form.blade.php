@@ -95,18 +95,58 @@
                   </td>
                 </tr>
 
-                {{-- National ID --}}
+                {{-- Country of Origin --}}
                 <tr class="text-gray-700">
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <div class="flex px-2">
                       <div class="my-auto">
-                        <h6 class="mb-0 ml-2 text-sm leading-normal dark:text-white">National ID/Omang</h6>
+                        <h6 class="mb-0 ml-2 text-sm leading-normal dark:text-white">Country of Origin</h6>
                       </div>
                     </div>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                    <input id="national_id" name="national_id" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" required/>
-                    <x-input-error :messages="$errors->get('national_id')" class="mt-4 text-red-500 text-sm font-semibold"/>
+                    <input id="country_of_origin" name="country_of_origin" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60 capitalize" placeholder="name of country" required/>
+                    <x-input-error :messages="$errors->get('country_of_origin')" class="mt-4 text-red-500 text-sm font-semibold"/>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <span class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-gray-700">
+                      <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
+                    </span>
+                  </td>
+                </tr>
+
+                {{-- Omang --}}
+                <tr id="omang_div" class="text-gray-700 hidden">
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <div class="flex px-2">
+                      <div class="my-auto">
+                        <h6 class="mb-0 ml-2 text-sm leading-normal dark:text-white">Omang</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <input id="omang" name="omang" type="number" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" required/>
+                    <x-input-error :messages="$errors->get('omang')" class="mt-4 text-red-500 text-sm font-semibold"/>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <span class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-gray-700">
+                      <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
+                    </span>
+                  </td>
+                </tr>
+
+                {{-- passport_number Number --}}
+                <tr id="passport_number_div" class="text-gray-700 hidden">
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <div class="flex px-2">
+                      <div class="my-auto">
+                        <h6 class="mb-0 ml-2 text-sm leading-normal dark:text-white">passport_number Number</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <input id="passport_number" name="passport_number" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" required/>
+                    <x-input-error :messages="$errors->get('passport_number')" class="mt-4 text-red-500 text-sm font-semibold"/>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <span class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-gray-700">
@@ -169,7 +209,7 @@
                     </div>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                    <input id="phone" name="phone" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" required/>
+                    <input id="phone" name="phone" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" placeholder="+2637712345678" required/>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <span class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-gray-700">
@@ -188,7 +228,7 @@
                     </div>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                    <input id="nok_phone" name="nok_phone" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" required/>
+                    <input id="nok_phone" name="nok_phone" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60" placeholder="+2637714231525" required/>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <span class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-gray-700">
@@ -488,7 +528,7 @@
                       <template x-for="(image, index) in images" :key="index">
                           <div class="relative w-32 h-32 object-cover rounded ">
                               <div x-show="image.preview" class="relative w-32 h-32 object-cover rounded">
-                          <img :src="image.url" class="w-32 h-32 object-cover rounded">
+                          <img id="image" :src="image.url" class="w-32 h-32 object-cover rounded">
                           <button @click="images.splice(index, 1)" class="w-6 h-6 absolute text-center flex items-center top-0 right-0 m-2 text-white text-lg bg-red-500 hover:text-red-700 hover:bg-gray-100 rounded-full p-1"><span class="mx-auto">×</span></button>
                       <div x-text="image.size" class="text-xs text-center p-2"></div>
                       </div>
@@ -534,7 +574,6 @@
       </div>
     </div>
 </div>
-
 <?php 
 $data = ['fullname', 'surname', 'email', 'date', 'academic_transcript', 'application_fee_receipt'];
 

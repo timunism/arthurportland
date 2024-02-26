@@ -25,11 +25,11 @@ var dialog = {
         {
           validation: "none",
           question: "National ID / Omang Number",
-          answer: "national_id"
+          answer: "passport_number"
         }
       ]
     },
-    national_id: {
+    passport_number: {
       says: ["What is your Postal Address?"],
       reply: [
         {
@@ -144,7 +144,7 @@ var dialog = {
   var output = {
     "gender":NaN,
     "nationality":NaN,
-    "national_id":NaN,
+    "passport_number":NaN,
     "postal_address":NaN,
     "physical_address":NaN,
     "phone":NaN,

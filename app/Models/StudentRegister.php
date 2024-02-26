@@ -16,7 +16,7 @@ class StudentRegister extends Model
         'fullname',
         'surname',
         'gender',
-        'national_id',
+        'passport_number',
         'tr_number',
         'program_code',
         'program_description',

@@ -20,7 +20,7 @@ class DashboardController extends Controller
                 abort(403, 'You have been logged out by the admin');
             }
         }
-        if (Auth::User() != 'student' && Auth::User() != 'applicant') {
+        if (Auth::User()->role != 'applicant' && Auth::User()->role != 'student') {
             // Query Students
             $students = StudentRegister::where('student_status', 'active')->paginate(10);
             // Query Access Rights
@@ -67,42 +67,38 @@ class DashboardController extends Controller
                         ->where('dtef_result', 'successful')->count();
                 $dtefResultsPending = StudentRegister::where('sponsor', 'dtef')
                         ->where('dtef_result', 'pending')->count(); 
-            }
-            else {
-                $femaleStudents = 0; // Assign Class Female Students
-                $maleStudents = 0; // Assign Class Male Studentss
-                $hods = 0; // department HODs
-                $lecturers = 0; // department Lecturers
-                $dtefFemale = 45; // Class Dtef Female Students
-                $dtefMale = 20; // Class Dtef Male Students
-                $dtefFailed = 3; // dtef failed submissions
+                
+                return view('dashboard', [
+                        // access
+                        'access'=>$role->access,
+                        // students
+                        'students'=>$students,
+                        'femaleStudents'=>$femaleStudents,
+                        'maleStudents'=>$maleStudents,
+                        'hods'=>$hods,
+                        'lecturers'=>$lecturers,
+                        'academic_registrars'=>$academic_registrars,
+                        'exam_officers'=>$exam_officers,
+                        'admissions_officers'=>$admission_officers,
+                        'dtefMale'=>$dtefMale,
+                        'dtefFemale'=>$dtefFemale,
+                        # DTEF Register
+                        'dtefRegisterPending'=>$dtefRegisterPending,
+                        'dtefRegisterSuccessful'=>$dtefRegisterSuccessful,
+                        'dtefRegisterFailed'=>$dtefRegisterFailed,
+                        # DTEF Results
+                        'dtefResultsPending'=>$dtefResultsPending,
+                        'dtefResultsSuccessful'=>$dtefResultsSuccessful,
+                        'dtefResultsFailed'=>$dtefResultsFailed,
+                ]);
             }
 
-            return view('dashboard', [
-                // access
-                'access'=>$role->access,
-                // students
-                'students'=>$students,
-                'femaleStudents'=>$femaleStudents,
-                'maleStudents'=>$maleStudents,
-                'hods'=>$hods,
-                'lecturers'=>$lecturers,
-                'academic_registrars'=>$academic_registrars,
-                'exam_officers'=>$exam_officers,
-                'admissions_officers'=>$admission_officers,
-                'dtefMale'=>$dtefMale,
-                'dtefFemale'=>$dtefFemale,
-                # DTEF Register
-                'dtefRegisterPending'=>$dtefRegisterPending,
-                'dtefRegisterSuccessful'=>$dtefRegisterSuccessful,
-                'dtefRegisterFailed'=>$dtefRegisterFailed,
-                # DTEF Results
-                'dtefResultsPending'=>$dtefResultsPending,
-                'dtefResultsSuccessful'=>$dtefResultsSuccessful,
-                'dtefResultsFailed'=>$dtefResultsFailed,
-            ]);
+        else {
+        return ["Alert"=>"You're not yet authorized to access the Dashboard."];
         }
-        else if (Auth::User()->role == 'student') {
+
+        }
+        else if (Auth::User()->role == 'student' || Auth::User()->role == 'applicant') {
             // retrieve student information from register table
             // retrieve student courses information from courses table
             // pass retrieved information to dashboard

@@ -58,12 +58,25 @@ class ApplyController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
-        $request->validate([
-            'national_id'=>'required|unique:student_profile',
-            'email'=>'required|unique:student_profile',
-            'application_fee_receipt'=> 'required|image|mimes:jpg,png,jpeg|max:2048',
-            'academic_transcript'=> 'required|file|mimes:pdf|max:2048'
-        ]);
+        if ($request->omang == null && $request->passport_number != null) {
+            $request->validate([
+                'passport_number'=>'required|unique:student_profile',
+                'email'=>'required|unique:student_profile',
+                'application_fee_receipt'=> 'required|image|mimes:jpg,png,jpeg|max:2048',
+                'academic_transcript'=> 'required|file|mimes:pdf|max:2048'
+            ]);
+        }
+        else if ($request->omang != null && $request->passport_number == null) {
+            $request->validate([
+                'omang'=>'required|unique:student_profile',
+                'email'=>'required|unique:student_profile',
+                'application_fee_receipt'=> 'required|image|mimes:jpg,png,jpeg|max:2048',
+                'academic_transcript'=> 'required|file|mimes:pdf|max:2048'
+            ]);
+        }
+        else {
+            abort(403, 'Invalid Country of Origin Details');
+        }
         $this->pushProfile($request);
 
         return view('dashboard', ['alert'=>'true']);
@@ -149,7 +162,8 @@ class ApplyController extends Controller
                 'phone' => $this->request->input('phone'),
                 'address' => $this->request->input('postal_address'),
                 'next_of_kin_phone' => $this->request->input('nok_phone'),
-                'national_id' => $this->request->input('national_id'),
+                'passport_number' => $this->request->input('passport_number'),
+                'omang' => $this->request->input('omang')
             ]);
     
             DB::table('student_academic_details')->insert([

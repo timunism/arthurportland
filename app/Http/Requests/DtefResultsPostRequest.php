@@ -31,7 +31,7 @@ class DtefResultsPostRequest extends FormRequest
         $results = StudentRegister::all();
 
         foreach ($results as $result) {
-            $national_id = $result->national_id;
+            $passport_number = $result->passport_number;
             $surname = $result->surname;
             $firstname = $result->firstname;
             $program_name = $result->program_name;
@@ -69,7 +69,7 @@ class DtefResultsPostRequest extends FormRequest
                     ["value" => " "]
                 ],
                 "id" => [
-                    ["value" => $national_id]
+                    ["value" => $passport_number]
                 ],
                 "surname" => [
                     ["value" => $surname]

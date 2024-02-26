@@ -28,7 +28,8 @@ class ApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'national_id' => ['string', 'max:60'],
+            'passport_number' => ['string', 'max:60'],
+            'omang'=>['string', 'max:60'],
             'email' => ['email'],
             'application_fee_receipt' => ['image', 'max:2048'],
             'academic_transcript' => ['file', 'max:2048']

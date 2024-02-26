@@ -19,7 +19,7 @@ class StudentProfile extends Model
         'gender',
         'email_address',
         'phone',
-        'national_id',
+        'passport_number',
         'address',
         'nok_phone',
         'application_date'

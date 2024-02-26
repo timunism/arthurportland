@@ -84,7 +84,7 @@ class DtefAdmissionController extends Controller {
                         ['value' => ""]
                     ],
                     'id' => [
-                        ['value' => $register->national_id]
+                        ['value' => $register->passport_number]
                     ],
                     'surname' => [
                         ['value' => $register->surname]

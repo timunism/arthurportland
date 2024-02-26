@@ -34,10 +34,17 @@ $unavailable = 'not available';
                         <th scope="col" class="px-6 py-2 text-gray-700">Surname</th>
                         <td>{{ $student_info->surname ?? $unavailable }}</td>
                     </tr>
-                    <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Omang / Passport No.</th>
-                        <td class="bg-gray-100">{{ $student_info->national_id ?? $unavailable }}</td>
-                    </tr>
+                        @if ($student_info->omang != null)
+                            <tr>
+                                <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">(National ID) Omang</th>
+                                <td class="bg-gray-100">{{ $student_info->omang ?? $unavailable }}</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">(National ID) Passport Number</th>
+                                <td class="bg-gray-100">{{ $student_info->passport_number ?? $unavailable }}</td>
+                            </tr>
+                        @endif
                     <tr>
                         <th scope="col" class="px-6 py-2 text-gray-700">Date Of Birth</th>
                         @if ($student_info->date_of_birth != '0000-00-00')

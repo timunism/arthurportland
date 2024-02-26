@@ -70,7 +70,7 @@ try {
       const college = document.getElementById('school');
       const work = document.getElementById('work');
       const nok_phone = document.getElementById('nok_phone');
-      const national_id = document.getElementById('national_id');
+      const passport_number = document.getElementById('passport_number');
       const qualifications = document.getElementById('qualifications');
 
       gender.value = saveData['gender'];
@@ -82,8 +82,8 @@ try {
       college.value = saveData['school'];
       work.value = saveData['work'];
       nok_phone.value = saveData['nok_phone'];
-      national_id.value = saveData['national_id'];
-      qualifications.value = saveData['national_id'];
+      passport_number.value = saveData['passport_number'];
+      qualifications.value = saveData['passport_number'];
       console.log(employer.value);
     }
     catch(e) {
@@ -241,6 +241,26 @@ function isPhoneNumber(cell) {
     errorAlert('invalid phone number', 'Phone Number');
   }
 }
+// Countr of Origin Logic
+const country_of_origin = document.getElementById('country_of_origin');
+const passport_number_div = document.getElementById('passport_number_div');
+const omang_div = document.getElementById('omang_div');
+
+country_of_origin.addEventListener('blur', ()=>{
+  if (country_of_origin.value.toLowerCase() == 'botswana') {
+    passport_number_div.textContent = '';
+    passport_number_div.classList.add('hidden');
+    omang_div.classList.remove('hidden');
+  }
+  else if (country_of_origin.value.length < 1) {
+    errorAlert('Provide the name of the country where you were born and registered.', 'Country of Origin')
+  }
+  else {
+    passport_number_div.classList.remove('hidden');
+    omang_div.textContent = '';
+    omang_div.classList.add('hidden');
+  }
+});
 
 function errorAlert(message, title) {
   Swal.fire({

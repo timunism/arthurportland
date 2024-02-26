@@ -57,7 +57,7 @@ class ApplicationAdmit extends Component
                     'fullname'=> $this->student_info->fullname,
                     'gender'=>$this->student_info->gender,
                     'date_of_birth'=>$this->student_info->date_of_birth,
-                    'national_id'=>$this->student_info->national_id,
+                    'passport_number'=>$this->student_info->passport_number,
                     'tr_number'=>'1234567',
                     'contact' => $this->student_info->phone,
                     'program_code'=> $this->student_info->course_code,

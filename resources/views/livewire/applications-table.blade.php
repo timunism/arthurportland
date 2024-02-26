@@ -98,7 +98,7 @@ $count = $initial_count - 1;
                                         "displayName"=>"Gender"
                                     ])
                                 </th>
-                                <th scope="col" class="px-4 py-3">Omang</th>
+                                <th scope="col" class="px-4 py-3">National ID</th>
                                 <th scope="col" class="px-4 py-3">Department</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
@@ -115,7 +115,13 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $student->fullname }}</td>
                                     <td class="px-4 py-3">{{ $student->surname }}</td>
                                     <td class="px-4 py-3">{{ $student->gender }}</td>
-                                    <td class="px-4 py-3">{{ $student->national_id }}</td>
+                                    <td class="px-4 py-3">
+                                        @if ($student->omang != null)
+                                            {{ $student->omang }}
+                                        @else
+                                            {{ $student->passport_number }}
+                                        @endif
+                                    </td>
                                     <td class="px-4 py-3">{{ $student->course_code }}</td>
                                     <td class="px-4 py-3">
                                     <a href="{{ route('applications.edit', $student->student_profile_id)}}" wire:navigate class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">View</a>

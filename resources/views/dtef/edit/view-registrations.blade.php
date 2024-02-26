@@ -35,8 +35,8 @@ $unavailable = 'not available';
                         <td>{{ $student_info->surname ?? $unavailable }}</td>
                     </tr>
                     <tr>
-                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Omang / Passport No.</th>
-                        <td class="bg-gray-100">{{ $student_info->national_id ?? $unavailable }}</td>
+                        <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Omang / passport_number No.</th>
+                        <td class="bg-gray-100">{{ $student_info->passport_number ?? $unavailable }}</td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-2 text-gray-700">Date Of Birth</th>

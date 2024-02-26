@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question and Image Form</title>
+    <style>
+        /* Add your custom styling here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ask a Question and Upload an Image</h1>
+    <form id="question-form" enctype="multipart/form-data">
+        <label for="contexr">Paste your context:</label>
+        <textarea cols="10" type="text" id="context" name="context" required>
+        </textarea>
+        <br>
+        <label for="question">Enter your question:</label>
+        <input type="text" id="question" name="question" required>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <div class="loading">Loading...</div>
+    <div id="answer"></div>
+
+    <script>
+        const form = document.getElementById('question-form');
+        const loadingDiv = document.querySelector('.loading');
+        const answerDiv = document.getElementById('answer');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loadingDiv.style.display = 'block';
+
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('http://127.0.0.1:5000/answer-context-question', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+                answerDiv.textContent = data.answer;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                answerDiv.textContent = 'Error fetching data. Please try again later.';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+

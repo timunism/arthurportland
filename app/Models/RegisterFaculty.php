@@ -17,7 +17,7 @@ class RegisterFaculty extends Model
         'surname',
         'title',
         'gender',
-        'national_id',
+        'passport_number',
         'date_of_birth',
         'email',
         'phone',
