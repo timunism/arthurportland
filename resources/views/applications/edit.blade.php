@@ -34,14 +34,18 @@ $unavailable = 'not available';
                         <th scope="col" class="px-6 py-2 text-gray-700">Surname</th>
                         <td>{{ $student_info->surname ?? $unavailable }}</td>
                     </tr>
+                    <tr>
+                        <th scope="col" class="px-6 py-2 text-gray-700">Country of Origin</th>
+                        <td>{{ $student_info->country_of_origin ?? $unavailable }}</td>
+                    </tr>
                         @if ($student_info->omang != null)
                             <tr>
-                                <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">(National ID) Omang</th>
+                                <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Omang</th>
                                 <td class="bg-gray-100">{{ $student_info->omang ?? $unavailable }}</td>
                             </tr>
                         @else
                             <tr>
-                                <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">(National ID) Passport Number</th>
+                                <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Passport Number</th>
                                 <td class="bg-gray-100">{{ $student_info->passport_number ?? $unavailable }}</td>
                             </tr>
                         @endif
@@ -79,7 +83,7 @@ $unavailable = 'not available';
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-2 text-gray-700">Email</th>
-                        <td>{{ $student_info->email_address ?? $unavailable }}</td>
+                        <td>{{ $student_info->email ?? $unavailable }}</td>
                     </tr>
                     <tr>
                         <th scope="col" class="px-6 py-2 bg-gray-100 text-gray-700">Cell</th>

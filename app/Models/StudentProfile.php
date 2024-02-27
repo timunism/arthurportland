@@ -29,6 +29,10 @@ class StudentProfile extends Model
         $query
         ->where('fullname', 'like', "%{$value}%")
         ->orWhere('surname', 'like', "%{$value}%")
-        ->orWhere('course_code', 'like', "%{$value}%");
+        ->orWhere('course_code', 'like', "%{$value}%")
+        ->orWhere('email', 'like', "%{$value}%")
+        ->orWhere('passport_number', 'like', "%{$value}%")
+        ->orWhere('country_of_origin', 'like', "%{$value}%")
+        ->orWhere('omang', 'like', "%{$value}%");
     }
 }

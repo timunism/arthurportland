@@ -89,7 +89,7 @@ class DtefResultController extends Controller {
                 // convert data to dictionary
                 $data = [
                     'id' => [
-                        ['value' => $register->passport_number]
+                        ['value' => $register->omang]
                     ],
                     'tr' => [
                         ['value' => $register->tr_number]

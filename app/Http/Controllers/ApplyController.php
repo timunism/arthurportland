@@ -163,7 +163,8 @@ class ApplyController extends Controller
                 'address' => $this->request->input('postal_address'),
                 'next_of_kin_phone' => $this->request->input('nok_phone'),
                 'passport_number' => $this->request->input('passport_number'),
-                'omang' => $this->request->input('omang')
+                'omang' => $this->request->input('omang'),
+                'country_of_origin'=>$this->request->input('country_of_origin')
             ]);
     
             DB::table('student_academic_details')->insert([

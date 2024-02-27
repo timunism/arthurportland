@@ -77,25 +77,25 @@ $count = $initial_count - 1;
                                 <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">
                                     @include('livewire.includes.sort-button', [
                                         "name"=>"id",
-                                        "displayName"=>"Profile Id"
+                                        "displayName"=>"PROFILE ID"
                                     ])
                                 </th>
                                 <th scope="col" class="px-4 py-3" wire:click="setSortBy('fullname')">
                                     @include('livewire.includes.sort-button', [
                                         "name"=>"fullname",
-                                        "displayName"=>"Fullname"
+                                        "displayName"=>"FULLNAME"
                                     ])
                                 </th>
                                 <th scope="col" class="px-4 py-3" wire:click="setSortBy('surname')">
                                     @include('livewire.includes.sort-button', [
                                         "name"=>"surname",
-                                        "displayName"=>"Surname"
+                                        "displayName"=>"SURNAME"
                                     ])
                                 </th>
                                 <th scope="col" class="px-4 py-3" wire:click="setSortBy('gender')">
                                     @include('livewire.includes.sort-button', [
                                         "name"=>"gender",
-                                        "displayName"=>"Gender"
+                                        "displayName"=>"GENDER"
                                     ])
                                 </th>
                                 <th scope="col" class="px-4 py-3">National ID</th>

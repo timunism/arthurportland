@@ -70,7 +70,6 @@ try {
       const college = document.getElementById('school');
       const work = document.getElementById('work');
       const nok_phone = document.getElementById('nok_phone');
-      const passport_number = document.getElementById('passport_number');
       const qualifications = document.getElementById('qualifications');
 
       gender.value = saveData['gender'];
@@ -82,8 +81,7 @@ try {
       college.value = saveData['school'];
       work.value = saveData['work'];
       nok_phone.value = saveData['nok_phone'];
-      passport_number.value = saveData['passport_number'];
-      qualifications.value = saveData['passport_number'];
+      qualifications.value = saveData['qualifications'];
       console.log(employer.value);
     }
     catch(e) {

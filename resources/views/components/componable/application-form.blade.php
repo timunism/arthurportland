@@ -140,7 +140,7 @@
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <div class="flex px-2">
                       <div class="my-auto">
-                        <h6 class="mb-0 ml-2 text-sm leading-normal dark:text-white">passport_number Number</h6>
+                        <h6 class="mb-0 ml-2 text-sm leading-normal dark:text-white">Passport Number</h6>
                       </div>
                     </div>
                   </td>

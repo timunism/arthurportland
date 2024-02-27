@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\StudentRegister;
 use Illuminate\Support\Facades\Auth;
 
+// Refers to DTEF Admissions
 class DtefSubmissionController extends Controller {
 
     # entry() is a function for running a request, one entry at a time
@@ -75,7 +76,7 @@ class DtefSubmissionController extends Controller {
                 // convert data to dictionary
                 $data = [
                     'id' => [
-                        ['value' => $register->passport_number]
+                        ['value' => $register->omang]
                     ],
                     'names' => [
                         ['value' => $register->fullname]

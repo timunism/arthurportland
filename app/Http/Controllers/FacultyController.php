@@ -38,22 +38,41 @@ class FacultyController extends Controller
      * In validation, 'unique' uses the original database table name
      */
     public function store(FacultyApplicationRequest $request){
+        $omang = null;
+        $passport_number = null;
         if (Auth::User()) {
             if(Auth::User()->status != 'active') {
                 abort(403, 'You have been logged out by the admin');
             }
         }
-        $request->validate([
-            'omang'=>'required|unique:faculty_profile',
-            'email'=>'required|unique:faculty_profile|unique:users',
-            'phone'=>'required|unique:faculty_profile',
-        ]);
+        if ($request->input('omang') != null) {
+            $request->validate([
+                'country_of_origin'=>'required',
+                'omang'=>'required|unique:faculty_profile',
+                'email'=>'required|unique:faculty_profile|unique:users',
+                'phone'=>'required|unique:faculty_profile',
+            ]);
+            $omang = $request->input('omang');
+
+        }
+        else {
+            $request->validate([
+                'country_of_origin'=>'required',
+                'passport_number'=>'required|unique:faculty_profile',
+                'email'=>'required|unique:faculty_profile|unique:users',
+                'phone'=>'required|unique:faculty_profile',
+            ]);
+            $passport_number = $request->input('passport_number');
+        }
+
         $faculty_profile = new FacultyProfile;
         $faculty_profile->fullname = $request->input('fullname');
         $faculty_profile->surname = $request->input('surname');
         $faculty_profile->title = $request->input('title');
         $faculty_profile->gender = $request->input('gender');
-        $faculty_profile->omang = $request->input('omang');
+        $faculty_profile->omang = $omang;
+        $faculty_profile->passport_number = $passport_number;
+        $faculty_profile->country_of_origin = $request->input('country_of_origin');
         $faculty_profile->date_of_birth = $request->input('dob');
         $faculty_profile->email = $request->input('email');
         $faculty_profile->phone = $request->input('phone');

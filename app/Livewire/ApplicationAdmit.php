@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use phpDocumentor\Reflection\Types\Null_;
 
 class ApplicationAdmit extends Component
 {
@@ -16,6 +17,9 @@ class ApplicationAdmit extends Component
     public $student_id=0;
     public $student_info;
     public $student_ac;
+    public $dtef_status;
+    public $passport_number;
+    public $omang;
 
     public function admit($id) {
         if (Auth::User()) {
@@ -40,6 +44,24 @@ class ApplicationAdmit extends Component
         $this->student_info = $student_info;
         $this->student_ac = $student_academic_details;
 
+        // Prepare DTEF columns
+        if ($this->student_info->sponsor === 'dtef'){
+            $this->dtef_status = 'pending';
+        }
+        else {
+            $this->dtef_status = null;
+        }
+
+        // Prepare Omang & Passport Number
+        if ($this->student_info->omang == null) {
+            $this->omang = null;
+            $this->passport_number = $this->student_info->passport_number;
+        }
+        else {
+            $this->omang = $this->student_info->omang;
+            $this->passport_number = null;
+        }
+
         // generate id for new student
         $this->student_id = 1000 + $this->id;
         $this->student_id = date('Y').'PC'.$this->student_id;
@@ -57,13 +79,14 @@ class ApplicationAdmit extends Component
                     'fullname'=> $this->student_info->fullname,
                     'gender'=>$this->student_info->gender,
                     'date_of_birth'=>$this->student_info->date_of_birth,
-                    'passport_number'=>$this->student_info->passport_number,
-                    'tr_number'=>'1234567',
+                    'passport_number'=>$this->passport_number,
+                    'omang'=>$this->omang,
+                    'tr_number'=>time(),
                     'contact' => $this->student_info->phone,
                     'program_code'=> $this->student_info->course_code,
                     'program_description'=>$this->student_info->course_name,
                     'faculty'=>'',
-                    'year_of_study'=> date('Y').'/'.intval(date('Y'))+2,
+                    'year_of_study'=> $this->student_info->level_of_entry,
                     'start_date'=> date('Y').'-08-11',
                     'sem_end_date' => date('Y').'-12-01',
                     'end_date' => intval(intval(date('Y'))+2).'-7-02',
@@ -75,13 +98,13 @@ class ApplicationAdmit extends Component
                     'failed'=>'0',
                     'student_status'=>'active',
                     'sponsorship_status'=>'active',
-                    'sponsor_code'=>'',
+                    //'sponsor_code'=>'',
                     'sponsor'=>$this->student_info->sponsor,
                     'accomodation_status'=>'off',
                     'campus'=>'Gaborone',
-                    'dtef_register'=>'0',
-                    'dtef_result'=>'0',
-                    'dtef_admission'=>'0'
+                    'dtef_register'=>$this->dtef_status,
+                    'dtef_result'=>$this->dtef_status,
+                    'dtef_admission'=>$this->dtef_status
 
                 ]);
         });

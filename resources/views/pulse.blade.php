@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="mt-5">
         <div class="flex justify-between">
-            <div class="flex justify-start">
+            <div class="flex">
                 <a href="{{ route('dashboard') }}" class="text-purple-600 font-bold cursor-pointer hover:scale-110 transition transition-100">Back</a>
             </div>
             <div class="flex justify-end">

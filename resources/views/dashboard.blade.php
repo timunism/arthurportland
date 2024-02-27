@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        @if (Auth::User()->access == 'admin')
+        @if (Auth::User()->role == 'admin')
             <x-componable.dashboard-elevated />
         @endif
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -33,9 +33,9 @@
                                 <div class="m-2">
                                     <x-componable.chart
                                     type="doughnut"
-                                    label="Faculty"
-                                    xlist="['Lecturer','hod']"
-                                    ylist="[{{ $lecturers }},{{ $hods }}]"
+                                    label="Staff"
+                                    xlist="['Male','Female']"
+                                    ylist="[{{ $maleStaff }},{{ $femaleStaff }}]"
                                     colors="['rgb(5,163,53)','rgb(37,120,236)']"
                                     size="w-48"
                                     />
@@ -58,8 +58,8 @@
                             <div class="m-2">
                                 {{-- Active faculty --}}
                                 <x-componable.dashboard-sigline
-                                    title="Lecturers & Hods"
-                                    count="{{ $lecturers+$hods }}"
+                                    title="Active Staff"
+                                    count="{{ $maleStaff+$femaleStaff}}"
                                     colorid="2"
                                     startcolor="rgb(5,163,53)"
                                     endcolor="rgb(37,120,236)"

@@ -28,16 +28,17 @@ class DashboardController extends Controller
 
             if ($role->access == 'records' || 
                 $role->access == 'unrestricted' ||
-                $role->access == 'admissions') {
+                $role->access == 'admissions' ||
+                $role->access == 'examinations') {
                 $femaleStudents = studentTotals('male', 'student_status', 'active');
                 $maleStudents = studentTotals('female', 'student_status', 'active');
 
-                // total HODs
-                $hods = FacultyProfile::where('approval', 'approved')
-                        ->where('role', 'hod')->count();
-                // total Lectures
-                $lecturers = FacultyProfile::where('approval', 'approved')
-                        ->where('role', 'lecturer')->count();
+                // Male Staff
+                $maleStaff = FacultyProfile::where('approval', 'approved')
+                        ->where('gender', 'male')->count();
+                // Female Staff
+                $femaleStaff = FacultyProfile::where('approval', 'approved')
+                        ->where('gender', 'female')->count();
                 // total examinations officers
                 $exam_officers = FacultyProfile::where('approval', 'approved')
                         ->where('role', 'examinations_officer')->count();
@@ -75,8 +76,8 @@ class DashboardController extends Controller
                         'students'=>$students,
                         'femaleStudents'=>$femaleStudents,
                         'maleStudents'=>$maleStudents,
-                        'hods'=>$hods,
-                        'lecturers'=>$lecturers,
+                        'maleStaff'=>$maleStaff,
+                        'femaleStaff'=>$femaleStaff,
                         'academic_registrars'=>$academic_registrars,
                         'exam_officers'=>$exam_officers,
                         'admissions_officers'=>$admission_officers,
@@ -94,7 +95,7 @@ class DashboardController extends Controller
             }
 
         else {
-        return ["Alert"=>"You're not yet authorized to access the Dashboard."];
+            return ["Alert"=>"You're not yet authorized to access the Dashboard."];
         }
 
         }

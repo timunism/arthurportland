@@ -101,7 +101,11 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3 text-black font-semibold">{{ $student->id }}</td>
                                     <td class="px-4 py-3">{{ $student->fullname }}</td>
                                     <td class="px-4 py-3">{{ $student->surname }}</td>
-                                    <td class="px-4 py-3">{{ $student->passport_number }}</td>
+                                    @if ($student->passport_number != null)
+                                        <td class="px-4 py-3">{{ $student->passport_number }}</td>
+                                    @else
+                                        <td class="px-4 py-3">{{ $student->omang }}</td>
+                                    @endif
                                     <td class="px-4 py-3">{{ $student->program_code }}</td>
                                     <td class="px-4 py-3">{{ $student->dtef_result }}</td>
                                     <td class="px-4 py-3">

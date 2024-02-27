@@ -16,6 +16,10 @@ class ApplicationsTable extends Component
     public $year = '';
     public $admission = '';
     public $course_code = '';
+    public $email = '';
+    public $omang = '';
+    public $passport_number = '';
+    public $country_of_origin = '';
     public $sortBy = 'created_at';
     public $sortDir = 'DESC';
 
@@ -46,6 +50,18 @@ class ApplicationsTable extends Component
         })
         ->when($this->course_code != '', function($query) {
             $query->where('course_code', $this->course_code);
+        })
+        ->when($this->email != '', function($query){
+            $query->where('email', $this->email);
+        })
+        ->when($this->omang != '', function($query){
+            $query->where('omang', $this->email);
+        })
+        ->when($this->omang != '', function($query){
+            $query->where('passport_number', $this->email);
+        })
+        ->when($this->omang != '', function($query){
+            $query->where('country_of_origin', $this->email);
         })
         ->orderBy('student_profile.'.$this->sortBy, $this->sortDir)
         ->paginate($this->perPage);

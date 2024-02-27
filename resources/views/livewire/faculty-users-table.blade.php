@@ -93,7 +93,7 @@ $count = $initial_count - 1;
                                         "displayName"=>"GENDER"
                                     ])
                                 </th>
-                                <th scope="col" class="px-4 py-3">Omang</th>
+                                <th scope="col" class="px-4 py-3">National ID</th>
                                 <th scope="col" class="px-4 py-3">Department</th>
                                 <th scope="col" class="px-4 py-3">Status</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
@@ -110,7 +110,11 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $faculty->fullname }}</td>
                                     <td class="px-4 py-3">{{ $faculty->surname }}</td>
                                     <td class="px-4 py-3">{{ $faculty->gender }}</td>
-                                    <td class="px-4 py-3">{{ $faculty->omang}}</td>
+                                    @if ($faculty->omang != null)
+                                        <td class="px-4 py-3">{{ $faculty->omang}}</td>
+                                    @else
+                                        <td class="px-4 py-3">{{ $faculty->passport_number}}</td>
+                                    @endif
                                     <td class="px-4 py-3">{{ $faculty->course_code }}</td>
                                     <td class="px-4 py-3">{{ $faculty->approval }}</td>
                                     <td class="px-4 py-3">

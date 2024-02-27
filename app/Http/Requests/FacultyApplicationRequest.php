@@ -24,7 +24,9 @@ class FacultyApplicationRequest extends FormRequest
         return [
             'email'=>['email'],
             'omang'=>['string', 'max:60'],
-            'phone'=>['string', 'max:60']
+            'passport_number'=>['string', 'max:60'],
+            'phone'=>['string', 'max:60'],
+            'country_of_origin'=>['string', 'max:255']
         ];
     }
 }
