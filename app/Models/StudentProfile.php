@@ -13,15 +13,17 @@ class StudentProfile extends Model
     
     protected $fillable = [
         'id',
-        'firstname',
+        'fullname',
         'surname',
+        'country_of_origin',
         'date_of_birth',
         'gender',
-        'email_address',
+        'email',
         'phone',
+        'omang',
         'passport_number',
         'address',
-        'nok_phone',
+        'next_of_kin_phone',
         'application_date'
     ];
 

@@ -13,14 +13,14 @@ class StudentCourseRegistration extends Model
 
     protected $fillable = [
         'id',
-        'student_id',
+        'student_profile_id',
+        'application_fee_receipt',
+        'student_id_number',
         'course_id',
         'level_of_entry',
-        'course_duration',
         'sponsor',
         'paper',
         'start_date',
         'completion_date',
-        'course_cost'
     ];
 }

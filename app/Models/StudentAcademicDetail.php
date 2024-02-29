@@ -13,7 +13,7 @@ class StudentAcademicDetail extends Model
 
     protected $fillable = [
         'id',
-        'student_id',
+        'student_profile_id',
         'employer',
         'nature_of_work',
         'highest_qualification',

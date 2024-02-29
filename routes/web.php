@@ -11,6 +11,7 @@ use App\Http\Controllers\DtefAdmissionController;
 use App\Http\Controllers\DtefResultController;
 use App\Http\Controllers\DtefRegistrationController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\ImportApplicantsController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
@@ -97,6 +98,13 @@ Route::get('applications/logs', [ApplicationsController::class, 'logsview'])
 
 Route::resource('applications', ApplicationsController::class)
     ->middleware((['auth']));
+
+Route::get('/import_applicants', [ImportApplicantsController::class, 'index'])
+    ->middleware(['auth'])
+    ->name(['import.applicants']);
+
+Route::resource('import_applicants', ImportApplicantsController::class)
+    ->middleware(['auth']);
 
 // GETS
 Route::get('/pulse', [PulseController::class, 'index'])
