@@ -14,8 +14,6 @@
               <form action="{{ route('apply.store') }}" method="post" enctype="multipart/form-data" class="border-t">
                 @method('POST')
                 @csrf
-                @if ($errors->get('academic_transcript'))
-                @endif
                 <tr class="text-gray-700">
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <div class="flex px-2">

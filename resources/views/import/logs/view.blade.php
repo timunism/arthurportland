@@ -1,5 +1,5 @@
 @php 
-$logs = Storage::disk('public')->get('logs/applications.json');
+$logs = Storage::disk('public')->get('logs/imports.json');
 $logs = json_decode($logs, true);
 $count = 0;
 @endphp
@@ -10,8 +10,8 @@ $count = 0;
                 <a href="{{ route('applications.index') }}" class="text-purple-600 font-bold cursor-pointer hover:scale-110 transition transition-100">Back</a>
             </div>
             <div class="flex space-x-3">
-                <a href="#" class="bg-purple-500 px-2 py-1 font-semibold text-white rounded">Admissions</a>
-                <a href="{{ route('import_applicants.logsview') }}" wire:navigate class=" text-slate-700 text-center font-semibold hover:text-purple-500" style="margin-top:2px;">Imports</a>
+                <a href="{{ route('applications.logsview') }}" wire:navigate class=" text-slate-700 text-center font-semibold hover:text-purple-500" style="margin-top:2px;">Admissions</a>
+                <a href="#" class="bg-purple-500 px-2 py-1 font-semibold text-white rounded">Imports</a>
             </div>
             <div class="flex">
                 <span class="font-semibold text-gray-600"><sup>powered by </sup><span class="font-bold text-gray-600">LOG<span class="text-purple-600">ATRON</span></span></span>
@@ -41,21 +41,21 @@ $count = 0;
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-4 py-3">No.</th>
-                                <th scope="col" class="px-4 py-3">Date</th>
-                                <th scope="col" class="px-4 py-3">Processed By</th>
-                                <th scope="col" class="px-4 py-3">Affected User</th>
+                                <th scope="col" class="px-4 py-3">Start Time</th>
+                                <th scope="col" class="px-4 py-3">End Time</th>
                                 <th scope="col" class="px-4 py-3">Effect</th>
+                                <th scope="col" class="px-4 py-3">Processed By</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($logs == null)
-                            <tr class>
-                                <th></th>
-                                <td></td>
-                                <td></td>
-                                <td class="p-4 font-semibold text-md">Nothing To Show</td>
-                            </tr>
+                                <tr class>
+                                    <th></th>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="p-4 font-semibold text-md">Nothing To Show</td>
+                                </tr>
                             @else
                                 @foreach ($logs as $key=>$value)
                                     @php
@@ -68,10 +68,10 @@ $count = 0;
                                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $count }}
                                         </th>
-                                        <td class="px-4 py-3">{{ $value['time'] }}</td>
-                                        <td class="px-4 py-3">{{ $key }}</td>
-                                        <td class="px-4 py-3">{{ $value['affected_user'] }}</td>
+                                        <td class="px-4 py-3">{{ $value['start_time'] }}</td>
+                                        <td class="px-4 py-3">{{ $value['end_time'] }}</td>
                                         <td class="px-4 py-3">{{ $value['effect'] }}</td>
+                                        <td class="px-4 py-3">{{ $key }}</td>
                                         <td class="px-4 py-3">
                                         <a href="" wire:navigate class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded">Delete</a>
                                         </td>

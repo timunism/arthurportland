@@ -12,11 +12,8 @@ class StudentRegister extends Model
     protected $table = 'student_register';
 
     protected $fillable = [
+        'student_profile_id',
         'student_id',
-        'fullname',
-        'surname',
-        'gender',
-        'passport_number',
         'tr_number',
         'program_code',
         'program_description',
@@ -31,7 +28,6 @@ class StudentRegister extends Model
         'failed',
         'student_status',
         'sponsorship_status',
-        'sponsor_code',
         'sponsor',
         'accomodation_status',
         'campus'

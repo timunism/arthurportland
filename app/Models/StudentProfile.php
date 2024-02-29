@@ -12,7 +12,6 @@ class StudentProfile extends Model
     protected $table = 'student_profile';
     
     protected $fillable = [
-        'id',
         'fullname',
         'surname',
         'country_of_origin',

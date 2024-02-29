@@ -99,9 +99,10 @@ Route::get('applications/logs', [ApplicationsController::class, 'logsview'])
 Route::resource('applications', ApplicationsController::class)
     ->middleware((['auth']));
 
-Route::get('/import_applicants', [ImportApplicantsController::class, 'index'])
-    ->middleware(['auth'])
-    ->name(['import.applicants']);
+Route::prefix('import_applicants')->middleware(['auth'])->group(function () {
+        Route::get('/', [ImportApplicantsController::class, 'index'])->name('import_applicants.index');
+        Route::get('/logs', [ImportApplicantsController::class, 'logsview'])->name('import_applicants.logsview');
+    });
 
 Route::resource('import_applicants', ImportApplicantsController::class)
     ->middleware(['auth']);

@@ -98,7 +98,7 @@ class DtefController extends Controller
         ]);
     }
 
-    public function editresult($admission_id) {
+    public function editresult($result_id) {
         if (Auth::User()) {
             if(Auth::User()->status != 'active') {
                 abort(403, 'You have been logged out by the admin');
@@ -109,7 +109,7 @@ class DtefController extends Controller
             ){
             abort(403, 'You are not authorized to view this page');
           }
-        $student = StudentRegister::where('id', $admission_id)->first();
+        $student = StudentRegister::where('id', $result_id)->first();
         $results = ExaminationResult::where('student_id', $student->student_id)->first();
         return view('dtef.edit.view-results', [
             'student_info'=>$student,

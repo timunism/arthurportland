@@ -12,7 +12,6 @@ class StudentCourseRegistration extends Model
     protected $table = 'student_course_registration';
 
     protected $fillable = [
-        'id',
         'student_profile_id',
         'application_fee_receipt',
         'student_id_number',

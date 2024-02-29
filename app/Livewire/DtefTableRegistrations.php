@@ -14,7 +14,7 @@ class DtefTableRegistrations extends Component
     public $year = '';
     public $submission = '';
     public $course_code = '';
-    public $sortBy = 'created_at';
+    public $sortBy = 'student_register.created_at';
     public $sortDir = 'DESC';
 
     public function setSortBy($field){
@@ -29,7 +29,9 @@ class DtefTableRegistrations extends Component
 
     public function render()
     {
-        $dtefStudents = StudentRegister::where('sponsor', 'dtef')
+        $dtefStudents = StudentRegister::join('student_profile',
+        'student_register.student_profile_id', '=', 'student_profile.id')
+        ->where('sponsor', 'dtef')
         ->search($this->search)
         ->when($this->year !== '', function($query){
             $query->where('year_of_study',$this->year);

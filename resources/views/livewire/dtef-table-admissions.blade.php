@@ -1,4 +1,5 @@
 @php
+use App\Models\StudentRegister;
 /* Dynamic Numbering System for Paginated Tables */
 $current_page = $students->currentPage;
 $initial_count = 1;
@@ -98,7 +99,7 @@ $count = $initial_count - 1;
                             @foreach ($students as $student)
                                 @php $count += 1; @endphp
                                 <tr wire:key="1" class="border-b dark:border-gray-700">
-                                    <td class="px-4 py-3 text-black font-semibold">{{ $student->id }}</td>
+                                    <td class="px-4 py-3 text-black font-semibold">{{ $count }}</td>
                                     <td class="px-4 py-3">{{ $student->fullname }}</td>
                                     <td class="px-4 py-3">{{ $student->surname }}</td>
                                     @if ($student->passport_number != null)
@@ -109,9 +110,12 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $student->program_code }}</td>
                                     <td class="px-4 py-3">{{ $student->dtef_admission }}</td>
                                     <td class="px-4 py-3">
-                                    <a href="{{ route('dtef.editadmission', $student->id) }}" wire:navigate class="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded">View</a>
+                                    @php 
+                                        $user_id = StudentRegister::where('student_profile_id', $student->id)->first();
+                                    @endphp
+                                    <a href="{{ route('dtef.editadmission', $user_id->id) }}" wire:navigate class="px-3 py-1 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded">View</a>
                                     @if ($student->dtef_admission !== 'successful')
-                                        <a href="{{ route('dtefadmission.entry', $student->id)}}" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">Submit</a>
+                                        <a href="{{ route('dtefadmission.entry', $user_id->id)}}" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">Submit</a>
                                     @else
                                         <span class="px-3 py-1 border border-green-600 text-green-600 font-semibold rounded">Sent</span>
                                     @endif

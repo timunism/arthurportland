@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2024 at 09:42 AM
+-- Generation Time: Feb 29, 2024 at 11:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -58,7 +58,9 @@ CREATE TABLE `examination_results` (
   `result` varchar(100) NOT NULL,
   `pending` varchar(100) NOT NULL,
   `to_write` varchar(100) NOT NULL,
-  `outcome` enum('continue','retake') NOT NULL
+  `outcome` enum('continue','retake') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -86,6 +88,13 @@ CREATE TABLE `faculty_profile` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `faculty_profile`
+--
+
+INSERT INTO `faculty_profile` (`id`, `fullname`, `surname`, `title`, `gender`, `omang`, `passport_number`, `country_of_origin`, `date_of_birth`, `email`, `phone`, `address`, `role`, `department`, `approval`, `created_at`, `updated_at`) VALUES
+(1, 'Roselyn', 'Dube', 'mrs', 'female', NULL, '182-H-123 c24', 'International', '1978-01-01', 'roselyn_dube@gmail.com', '+2677123471728', 'Plot 76 Gaborone', 'examinations_officer', 2, 'approved', '2024-02-27 13:20:16', '2024-02-27 13:20:16');
 
 -- --------------------------------------------------------
 
@@ -11270,9 +11279,9 @@ CREATE TABLE `student_course_registration` (
   `student_profile_id` int(11) NOT NULL,
   `course_id` varchar(60) NOT NULL,
   `paper` varchar(255) NOT NULL,
-  `level_of_entry` int(9) NOT NULL,
+  `level_of_entry` int(11) NOT NULL,
   `sponsor` varchar(60) NOT NULL,
-  `student_id_number` varchar(60) NOT NULL DEFAULT 'not yet assigned',
+  `student_id_number` varchar(60) DEFAULT NULL,
   `start_date` date NOT NULL DEFAULT '2024-08-13',
   `completion_date` date NOT NULL DEFAULT '2026-02-20',
   `admit` enum('0','1') NOT NULL,
@@ -11299,7 +11308,8 @@ CREATE TABLE `student_profile` (
   `email` varchar(60) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `passport_number` varchar(29) DEFAULT NULL,
-  `omang` int(11) DEFAULT NULL,
+  `omang` varchar(11) DEFAULT NULL,
+  `country_of_origin` varchar(255) NOT NULL,
   `address` varchar(60) NOT NULL,
   `next_of_kin_phone` varchar(60) NOT NULL,
   `application_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -11315,19 +11325,11 @@ CREATE TABLE `student_profile` (
 
 CREATE TABLE `student_register` (
   `id` int(11) NOT NULL,
-  `student_profile_id` int(11) NOT NULL,
+  `student_profile_id` int(11) DEFAULT NULL,
   `student_id` varchar(60) NOT NULL,
-  `surname` varchar(60) NOT NULL,
-  `fullname` varchar(60) NOT NULL,
-  `gender` varchar(60) NOT NULL,
-  `passport_number` varchar(60) DEFAULT NULL,
-  `omang` int(11) DEFAULT NULL,
   `tr_number` varchar(60) NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `contact` varchar(20) NOT NULL,
   `program_code` varchar(100) NOT NULL,
   `program_description` varchar(100) NOT NULL,
-  `faculty` varchar(100) NOT NULL,
   `year_of_study` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `sem_end_date` date DEFAULT NULL,
@@ -11339,7 +11341,7 @@ CREATE TABLE `student_register` (
   `passed` varchar(60) NOT NULL,
   `failed` varchar(60) NOT NULL,
   `student_status` varchar(100) NOT NULL,
-  `sponsorship_status` varchar(60) NOT NULL,
+  `sponsorship_status` varchar(60) DEFAULT NULL,
   `sponsor` varchar(60) NOT NULL,
   `accomodation_status` varchar(60) NOT NULL,
   `campus` varchar(60) NOT NULL,
@@ -11377,7 +11379,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `fullname`, `surname`, `role`, `access`, `email`, `status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Tinashe', 'Mashindi', 'admin', 'unrestricted', 'timunism@admin.com', 'active', NULL, '$2y$10$yDntI3XrV067PCYytlBmTOFiL4EmrFA06isXCqV.5A.2XX2uerKwC', NULL, NULL, NULL),
-(2, 'Blessing', 'Man', 'admin', 'unrestricted', 'blessing@admin.com', 'active', NULL, '$2y$10$yDntI3XrV067PCYytlBmTOFiL4EmrFA06isXCqV.5A.2XX2uerKwC', NULL, NULL, NULL);
+(2, 'Blessing', 'Man', 'admin', 'unrestricted', 'blessing@admin.com', 'active', NULL, '$2y$10$yDntI3XrV067PCYytlBmTOFiL4EmrFA06isXCqV.5A.2XX2uerKwC', NULL, NULL, NULL),
+(3, 'Anesu', 'Ranga', 'applicant', 'individual', 'anesu_ranga@gmail.com', 'active', NULL, '$2y$12$sYMhwkXH/efTNfjdlpXvSONOMJX3ltYUKnFOmYS6zEafVP/8pcQKC', NULL, '2024-02-27 06:47:53', '2024-02-27 06:47:53'),
+(4, 'Roselyn', 'Dube', 'examinations_officer', 'examinations', 'roselyn_dube@gmail.com', 'active', NULL, '$2y$12$Ays96i/yUD3oeyq7XogrguJ0wlbyTbv4ijLE8cwmnD1rjTSHaIQmi', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -11536,7 +11540,6 @@ ALTER TABLE `student_profile`
 ALTER TABLE `student_register`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `student_id` (`student_id`),
-  ADD UNIQUE KEY `national_id` (`passport_number`),
   ADD UNIQUE KEY `tr_number` (`tr_number`);
 
 --
@@ -11572,7 +11575,7 @@ ALTER TABLE `examination_results`
 -- AUTO_INCREMENT for table `faculty_profile`
 --
 ALTER TABLE `faculty_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -11602,7 +11605,7 @@ ALTER TABLE `pulse_aggregates`
 -- AUTO_INCREMENT for table `pulse_entries`
 --
 ALTER TABLE `pulse_entries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10841;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12355;
 
 --
 -- AUTO_INCREMENT for table `pulse_values`
@@ -11662,7 +11665,7 @@ ALTER TABLE `student_register`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_roles`

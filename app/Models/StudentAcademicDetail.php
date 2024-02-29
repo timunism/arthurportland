@@ -12,7 +12,6 @@ class StudentAcademicDetail extends Model
     protected $table = 'student_academic_details';
 
     protected $fillable = [
-        'id',
         'student_profile_id',
         'employer',
         'nature_of_work',

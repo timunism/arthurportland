@@ -48,9 +48,12 @@ class DashboardController extends Controller
                 // total edmissions officers
                 $academic_registrars = FacultyProfile::where('approval', 'approved')
                         ->where('role', 'academic_registrar')->count();         
-                $dtefFemale = StudentRegister::where('gender', 'female')
+                $dtefFemale = StudentRegister::join('student_profile',
+                'student_register.student_profile_id', '=', 'student_profile.id')->where('gender', 'female')
                         ->where('sponsor', 'dtef')->count();
-                $dtefMale = StudentRegister::where('gender', 'male')
+                $dtefMale = StudentRegister::join('student_profile',
+                'student_register.student_profile_id', '=', 'student_profile.id')
+                ->where('gender', 'male')
                         ->where('sponsor', 'dtef')->count();
 
                 // dtef register submissions
@@ -113,7 +116,9 @@ class DashboardController extends Controller
 
 // Totals the specified column in RegisterStudent model
 function studentTotals($gender, $column, $target) {
-    $total = StudentRegister::where($column, $target)
+    $total = StudentRegister::join('student_profile',
+    'student_register.student_profile_id', '=', 'student_profile.id')
+    ->where($column, $target)
             ->where('gender', $gender)->paginate()->total();
     return $total;
 }

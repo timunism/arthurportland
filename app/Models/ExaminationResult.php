@@ -11,9 +11,11 @@ class ExaminationResult extends Model
     protected $table = 'examination_results';
 
     protected $fillable = [
-        'id',
         'student_id',
         'subjects_enrolled',
         'result',
+        'pending',
+        'to_write',
+        'outcome'
     ];
 }
