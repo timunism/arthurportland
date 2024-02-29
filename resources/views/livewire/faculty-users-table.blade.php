@@ -101,7 +101,7 @@ $count = $initial_count - 1;
                         </thead>
                         <tbody>
                             @foreach ($faculty_users as $faculty)
-                                <?php $count += 1; ?>
+                                @php $count += 1; @endphp
                                 <tr wire:key="1" class="border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -118,9 +118,9 @@ $count = $initial_count - 1;
                                     <td class="px-4 py-3">{{ $faculty->course_code }}</td>
                                     <td class="px-4 py-3">{{ $faculty->approval }}</td>
                                     <td class="px-4 py-3">
-                                    <?php 
+                                    @php 
                                     $user_id = FacultyProfile::where('email', $faculty->email)->first();
-                                    ?>
+                                    @endphp
                                     <a href="{{ route('faculty.edit', $user_id->id)}}" wire:navigate class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">View</a>
                                     </td>
                                 </tr>
