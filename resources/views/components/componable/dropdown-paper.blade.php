@@ -1,8 +1,8 @@
-<?php 
+@php 
 use App\Models\StudentCoursePaper;
 
 $papers = StudentCoursePaper::all();
-?>
+@endphp
 <div class="relative group">
     <div id="dropdown-button" class="flex justify-between cursor-pointer border text-sm font-semibold border-gray-500 p-2 w-48 rounded-md" >
       <span class="ml-2">Choose...</span>

@@ -1,9 +1,9 @@
-<?php
+@php
 use App\Models\FacultyProfile;
 $user_id = FacultyProfile::where('email', $faculty_info->email)->first();
 // Page Variables
 $unavailable = 'not available'; 
-?>
+@endphp
 <x-app-layout>
     <div class="mt-6">
         {{-- Header Component Start --}}

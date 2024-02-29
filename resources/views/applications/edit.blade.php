@@ -1,7 +1,7 @@
-<?php
+@php
 // Page Variables
 $unavailable = 'not available'; 
-?>
+@endphp
 <x-app-layout>
     <div class="mt-6">
         {{-- Header Component Start --}}

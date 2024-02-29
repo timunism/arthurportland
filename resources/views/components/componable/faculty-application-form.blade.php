@@ -126,8 +126,11 @@
                     </div>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                    <input id="country_of_origin" name="country_of_origin" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60 capitalize" placeholder="name of country" required/>
-                    <x-input-error :messages="$errors->get('country_of_origin')" class="mt-4 text-red-500 text-sm font-semibold"/>
+                    <select id="country_of_origin" name="country_of_origin" type="text" class="dark:bg-gray-800 rounded-md mb-0 text-sm font-semibold leading-normal dark:text-white dark:opacity-60 min-w-48" required>
+                      <option value="">Choose...</option>
+                      <option value="Botswana">Botswana</option>
+                      <option value="International">International</option>
+                    </select>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                     <span class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-gray-700">

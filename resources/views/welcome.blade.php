@@ -1,3 +1,3 @@
 <x-app-layout>
-  <x-componable.dashboard-graphics />
+  {{-- PAGE GOES HERE --}}
 </x-app-layout>

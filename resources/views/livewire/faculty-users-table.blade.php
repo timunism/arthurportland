@@ -1,4 +1,4 @@
-<?php 
+@php 
 use App\Models\FacultyProfile;
 /* Dynamic Numbering System for Paginated Tables */
 $current_page = $faculty_users->currentPage;
@@ -10,7 +10,7 @@ if ($current_page > 1) {
     $initial_count = $perPage * ($current_page - 1) + 1;
 }
 $count = $initial_count - 1;
-?>
+@endphp
 <div>
     <section class="mt-10">
         <x-componable.table-header title='Staff Members' />

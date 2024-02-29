@@ -1,4 +1,4 @@
-<?php 
+@php 
 /* Dynamic Numbering System for Paginated Tables */
 $current_page = $students->currentPage;
 $initial_count = 1;
@@ -9,9 +9,9 @@ if ($current_page > 1) {
     $initial_count = $perPage * ($current_page - 1) + 1;
 }
 $count = $initial_count - 1;
-?>
+@endphp
 <div>
-    <section class="mt-10">
+    <section>
         <x-componable.table-header title='Applications' />
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -105,7 +105,7 @@ $count = $initial_count - 1;
                         </thead>
                         <tbody>
                             @foreach ($students as $student)
-                                <?php $count += 1; ?>
+                                @php $count += 1; @endphp
                                 <tr wire:key="1" class="border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">

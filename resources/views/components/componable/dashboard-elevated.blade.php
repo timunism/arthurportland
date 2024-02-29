@@ -1,6 +1,7 @@
+@props(['route', 'title'])
 <div class="flex justify-end space-y-6 md:space-x-2 md:space-y-0">
     <a
-    href="{{ route('pulse') }}"
+    href="{{ route($route) }}"
     wire:navigate
     class="inline-flex items-center justify-center px-4 py-1 space-x-1 bg-theme-light text-white rounded-md shadow animate-bounce hover:bg-theme-default"
     >
@@ -15,6 +16,6 @@
             </defs>
         </svg>
     </span>
-    <span>Open Pulse</span>
+    <span>{{ $title }}</span>
     </a>
 </div>

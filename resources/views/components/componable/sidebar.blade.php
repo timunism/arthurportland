@@ -1,4 +1,4 @@
-<?php 
+@php 
 use App\Models\StudentProfile;
 if (Auth::User()) {
    $hasApplied = StudentProfile::where('email', Auth::User()->email)->first();
@@ -52,7 +52,7 @@ foreach ($dtefUri as $key => $value) {
       break;
    }
 }
-?>
+@endphp
 <aside id="sidebar" class="fixed hidden z-40 bg-theme-default h-full top-0 left-0 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75" aria-label="Sidebar">
    <div id="closeSidebar" class='toggleSidebarHitBox fixed right-0 bg-gray-400 opacity-50 lg:hidden' style="height: 100vh; width:100%"></div>
     <div class="relative flex-1 flex flex-col min-h-0 border-r dark:border-gray-700 border-theme-default bg-theme-default dark:bg-gray-800 dark:text-gray-400 pt-0 ">

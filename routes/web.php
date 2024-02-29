@@ -12,8 +12,6 @@ use App\Http\Controllers\DtefResultController;
 use App\Http\Controllers\DtefRegistrationController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\RolesController;
-use Illuminate\Console\Application;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,6 +90,10 @@ Route::get('dtefresult/entry/{id}', [DtefResultController::class, 'entry'])
 Route::get('applications/admit/{id}', [ApplicationsController::class, 'admit'])
     ->middleware(['auth'])
     ->name('applications.admit');
+
+Route::get('applications/logs', [ApplicationsController::class, 'logsview'])
+    ->middleware(['auth'])
+    ->name('applications.logsview');
 
 Route::resource('applications', ApplicationsController::class)
     ->middleware((['auth']));

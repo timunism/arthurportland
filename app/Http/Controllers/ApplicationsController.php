@@ -78,4 +78,17 @@ class ApplicationsController extends Controller
       return view('applications.index');
     }
 
+    public function logsview() {
+      if (Auth::User()) {
+          if (Auth::User()->access != 'unrestricted') {
+              abort(403, 'Access Denied');
+          }
+      }
+      else {
+          abort(404, 'Page Not Found');
+      }
+
+      return view('applications.logs.view');
+  }
+
 }
