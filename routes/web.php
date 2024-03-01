@@ -10,7 +10,7 @@ use App\Http\Controllers\DtefController;
 use App\Http\Controllers\DtefAdmissionController;
 use App\Http\Controllers\DtefResultController;
 use App\Http\Controllers\DtefRegistrationController;
-use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ImportApplicantsController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
@@ -115,13 +115,13 @@ Route::get('/pulse', [PulseController::class, 'index'])
 Route::get('/apply/standard', [ApplyController::class, 'standard'])
     ->name('apply.standard');
 
-Route::get('/apply/faculty', [ApplyController::class, 'facultyapplication'])
-    ->name('apply.faculty');
+Route::get('/apply/staff', [ApplyController::class, 'staffapplication'])
+    ->name('apply.staff');
 
 Route::get('/apply/chatbot', [ApplyController::class, 'chatbot'])
     ->name('apply.chatbot');
 
-Route::resource('faculty', FacultyController::class);
+Route::resource('staff', StaffController::class);
 
 Route::resource('apply', ApplyController::class)
     ->middleware(['auth']);

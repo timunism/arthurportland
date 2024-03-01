@@ -140,7 +140,7 @@ window.addEventListener('application_alert', async(event)=>{
   }, 1000);
 });
 
-window.addEventListener('faculty_application_alert', (event)=>{
+window.addEventListener('staff_application_alert', (event)=>{
   let data = event.detail;
   Swal.fire({
     position: data.position,

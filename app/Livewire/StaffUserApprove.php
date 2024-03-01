@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\FacultyProfile;
+use App\Models\StaffProfile;
 use App\Models\StudentProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
-class FacultyUserApprove extends Component
+class StaffUserApprove extends Component
 {
     public $id;
     public $user;
@@ -29,9 +29,9 @@ class FacultyUserApprove extends Component
             ){
             abort(403, $message='You are not authorized to perform this action');
         }
-        $user = FacultyProfile::where('faculty_profile.id', $this->id)
+        $user = StaffProfile::where('staff_profile.id', $this->id)
             ->join('user_roles',
-            'faculty_profile.role', '=', 'user_roles.role')
+            'staff_profile.role', '=', 'user_roles.role')
             ->first();
 
         $this->user = $user;
@@ -47,7 +47,7 @@ class FacultyUserApprove extends Component
             $this->password = $this->password.$passWordPool[random_int(0, count($passWordPool)-1)];
         }
         DB::transaction(function(){
-            DB::table('faculty_profile')
+            DB::table('staff_profile')
             ->where('id', $this->id)
             ->update(['approval'=>'approved']);
 
@@ -67,7 +67,7 @@ class FacultyUserApprove extends Component
         ];
 
         $this->dispatch(
-            'faculty_application_alert',
+            'staff_application_alert',
             type: 'success',
             title: 'Profile Approved',
             footer: 'Password: '.$this->password,
@@ -78,6 +78,6 @@ class FacultyUserApprove extends Component
 
     public function render()
     {
-        return view('livewire.faculty-user-approve');
+        return view('livewire.staff-user-approve');
     }
 }

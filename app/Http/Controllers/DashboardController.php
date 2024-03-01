@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FacultyProfile;
+use App\Models\StaffProfile;
 use App\Models\StudentRegister;
-use App\Models\RegisterFaculty;
+use App\Models\RegisterStaff;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,19 +34,19 @@ class DashboardController extends Controller
                 $maleStudents = studentTotals('female', 'student_status', 'active');
 
                 // Male Staff
-                $maleStaff = FacultyProfile::where('approval', 'approved')
+                $maleStaff = StaffProfile::where('approval', 'approved')
                         ->where('gender', 'male')->count();
                 // Female Staff
-                $femaleStaff = FacultyProfile::where('approval', 'approved')
+                $femaleStaff = StaffProfile::where('approval', 'approved')
                         ->where('gender', 'female')->count();
                 // total examinations officers
-                $exam_officers = FacultyProfile::where('approval', 'approved')
+                $exam_officers = StaffProfile::where('approval', 'approved')
                         ->where('role', 'examinations_officer')->count();
                 // total edmissions officers
-                $admission_officers = FacultyProfile::where('approval', 'approved')
+                $admission_officers = StaffProfile::where('approval', 'approved')
                         ->where('role', 'admissions_officer')->count(); 
                 // total edmissions officers
-                $academic_registrars = FacultyProfile::where('approval', 'approved')
+                $academic_registrars = StaffProfile::where('approval', 'approved')
                         ->where('role', 'academic_registrar')->count();         
                 $dtefFemale = StudentRegister::join('student_profile',
                 'student_register.student_profile_id', '=', 'student_profile.id')->where('gender', 'female')
@@ -124,9 +124,9 @@ function studentTotals($gender, $column, $target) {
 }
 
 function retrieveStaff(){
-    $staff = FacultyProfile::where('approval', 'approved')
+    $staff = StaffProfile::where('approval', 'approved')
             ->join('users',
-                'faculty_profile.email', '=', 'users.email'
+                'staff_profile.email', '=', 'users.email'
             )->get();
     return $staff;
 }

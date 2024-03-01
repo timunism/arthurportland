@@ -56,7 +56,7 @@
                                 />
                             </div>
                             <div class="m-2">
-                                {{-- Active faculty --}}
+                                {{-- Active staff --}}
                                 <x-componable.dashboard-sigline
                                     title="Active Staff"
                                     count="{{ $maleStaff+$femaleStaff}}"

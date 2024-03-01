@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\FacultyProfile;
+use App\Models\StaffProfile;
 use Livewire\Component;
 use App\Models\StudentCourseRegistration;
 use App\Models\StudentProfile;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
 
-class FacultyUsersTable extends Component
+class StaffUsersTable extends Component
 {
     use WithPagination;
     public $perPage = 5;
@@ -30,19 +30,19 @@ class FacultyUsersTable extends Component
 
     public function render()
     {
-        $faculty_profiles = FacultyProfile::join('departments', 
-                'faculty_profile.department', '=', 'departments.id')
+        $staff_profiles = StaffProfile::join('departments', 
+                'staff_profile.department', '=', 'departments.id')
                 ->join('student_courses',
                 'student_courses.course_name', '=', 'departments.department_name')
         ->search($this->search)
         ->when($this->course_code != '', function($query) {
             $query->where('course_code', $this->course_code);
         })
-        ->orderBy('faculty_profile.'.$this->sortBy, $this->sortDir)
+        ->orderBy('staff_profile.'.$this->sortBy, $this->sortDir)
         ->paginate($this->perPage);
 
-        return view('livewire.faculty-users-table', [
-            'faculty_users' => $faculty_profiles
+        return view('livewire.staff-users-table', [
+            'staff_users' => $staff_profiles
         ]);
     }
 }

@@ -1,7 +1,7 @@
 @php 
-use App\Models\FacultyProfile;
+use App\Models\StaffProfile;
 /* Dynamic Numbering System for Paginated Tables */
-$current_page = $faculty_users->currentPage;
+$current_page = $staff_users->currentPage;
 $initial_count = 1;
 
 // We start counting from 1 on the first page, from x on every other page
@@ -100,28 +100,28 @@ $count = $initial_count - 1;
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($faculty_users as $faculty)
+                            @foreach ($staff_users as $staff)
                                 @php $count += 1; @endphp
                                 <tr wire:key="1" class="border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $count }}
                                     </th>
-                                    <td class="px-4 py-3">{{ $faculty->fullname }}</td>
-                                    <td class="px-4 py-3">{{ $faculty->surname }}</td>
-                                    <td class="px-4 py-3">{{ $faculty->gender }}</td>
-                                    @if ($faculty->omang != null)
-                                        <td class="px-4 py-3">{{ $faculty->omang}}</td>
+                                    <td class="px-4 py-3">{{ $staff->fullname }}</td>
+                                    <td class="px-4 py-3">{{ $staff->surname }}</td>
+                                    <td class="px-4 py-3">{{ $staff->gender }}</td>
+                                    @if ($staff->omang != null)
+                                        <td class="px-4 py-3">{{ $staff->omang}}</td>
                                     @else
-                                        <td class="px-4 py-3">{{ $faculty->passport_number}}</td>
+                                        <td class="px-4 py-3">{{ $staff->passport_number}}</td>
                                     @endif
-                                    <td class="px-4 py-3">{{ $faculty->course_code }}</td>
-                                    <td class="px-4 py-3">{{ $faculty->approval }}</td>
+                                    <td class="px-4 py-3">{{ $staff->course_code }}</td>
+                                    <td class="px-4 py-3">{{ $staff->approval }}</td>
                                     <td class="px-4 py-3">
                                     @php 
-                                    $user_id = FacultyProfile::where('email', $faculty->email)->first();
+                                    $user_id = StaffProfile::where('email', $staff->email)->first();
                                     @endphp
-                                    <a href="{{ route('faculty.edit', $user_id->id)}}" wire:navigate class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">View</a>
+                                    <a href="{{ route('staff.edit', $user_id->id)}}" wire:navigate class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">View</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -143,7 +143,7 @@ $count = $initial_count - 1;
                             </select>
                         </div>
                     </div>
-                    {{ $faculty_users->links() }}
+                    {{ $staff_users->links() }}
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@
                   <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap"></th>
                 </tr>
               </thead>
-              <form action="{{ route('faculty.store') }}" method="post" class="border-t">
+              <form action="{{ route('staff.store') }}" method="post" class="border-t">
                 @method('POST')
                 @csrf
                 {{-- Title --}}

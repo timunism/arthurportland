@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\FacultyApplicationRequest;
-use App\Models\FacultyProfile;
+use App\Http\Requests\StaffApplicationRequest;
+use App\Models\StaffProfile;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class FacultyController extends Controller
+class StaffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class FacultyController extends Controller
         if (Auth::User()->access != 'admissions' && Auth::User()->access != 'unrestricted') {
             abort(403, 'You are not authorized to view this page');
         }
-        return view('faculty.index');
+        return view('staff.index');
     }
 
     /**
@@ -37,7 +37,7 @@ class FacultyController extends Controller
     /**
      * In validation, 'unique' uses the original database table name
      */
-    public function store(FacultyApplicationRequest $request){
+    public function store(StaffApplicationRequest $request){
         $omang = null;
         $passport_number = null;
         if (Auth::User()) {
@@ -48,9 +48,9 @@ class FacultyController extends Controller
         if ($request->input('omang') != null) {
             $request->validate([
                 'country_of_origin'=>'required',
-                'omang'=>'required|unique:faculty_profile',
-                'email'=>'required|unique:faculty_profile|unique:users',
-                'phone'=>'required|unique:faculty_profile',
+                'omang'=>'required|unique:staff_profile',
+                'email'=>'required|unique:staff_profile|unique:users',
+                'phone'=>'required|unique:staff_profile',
             ]);
             $omang = $request->input('omang');
 
@@ -58,28 +58,28 @@ class FacultyController extends Controller
         else {
             $request->validate([
                 'country_of_origin'=>'required',
-                'passport_number'=>'required|unique:faculty_profile',
-                'email'=>'required|unique:faculty_profile|unique:users',
-                'phone'=>'required|unique:faculty_profile',
+                'passport_number'=>'required|unique:staff_profile',
+                'email'=>'required|unique:staff_profile|unique:users',
+                'phone'=>'required|unique:staff_profile',
             ]);
             $passport_number = $request->input('passport_number');
         }
 
-        $faculty_profile = new FacultyProfile;
-        $faculty_profile->fullname = $request->input('fullname');
-        $faculty_profile->surname = $request->input('surname');
-        $faculty_profile->title = $request->input('title');
-        $faculty_profile->gender = $request->input('gender');
-        $faculty_profile->omang = $omang;
-        $faculty_profile->passport_number = $passport_number;
-        $faculty_profile->country_of_origin = $request->input('country_of_origin');
-        $faculty_profile->date_of_birth = $request->input('dob');
-        $faculty_profile->email = $request->input('email');
-        $faculty_profile->phone = $request->input('phone');
-        $faculty_profile->address = $request->input('address');
-        $faculty_profile->role = $request->input('role');
-        $faculty_profile->department = $request->input('department');
-        $faculty_profile->save();
+        $staff_profile = new StaffProfile;
+        $staff_profile->fullname = $request->input('fullname');
+        $staff_profile->surname = $request->input('surname');
+        $staff_profile->title = $request->input('title');
+        $staff_profile->gender = $request->input('gender');
+        $staff_profile->omang = $omang;
+        $staff_profile->passport_number = $passport_number;
+        $staff_profile->country_of_origin = $request->input('country_of_origin');
+        $staff_profile->date_of_birth = $request->input('dob');
+        $staff_profile->email = $request->input('email');
+        $staff_profile->phone = $request->input('phone');
+        $staff_profile->address = $request->input('address');
+        $staff_profile->role = $request->input('role');
+        $staff_profile->department = $request->input('department');
+        $staff_profile->save();
 
         $data = [
             'alert'=>'Your application has been sent, you will be notified via email, as soon as it is approved.'
@@ -112,19 +112,19 @@ class FacultyController extends Controller
             ) {
                 abort(403, 'Unauthorized Request');
         }
-        $faculty_profiles = FacultyProfile::where('faculty_profile.id', $id)
+        $staff_profiles = StaffProfile::where('staff_profile.id', $id)
         ->join('departments', 
-        'faculty_profile.department', '=', 'departments.id')
+        'staff_profile.department', '=', 'departments.id')
         ->join('student_courses',
         'student_courses.course_name', '=', 'departments.department_name')->first();
 
         try {
-            $profile_user = User::where('email', $faculty_profiles->email)->first();
+            $profile_user = User::where('email', $staff_profiles->email)->first();
         } catch (\Throwable $th) {
             $profile_user = null;
         }
-        return view('faculty.edit', [
-            'faculty_info'=>$faculty_profiles,
+        return view('staff.edit', [
+            'staff_info'=>$staff_profiles,
             'profile_user'=>$profile_user
         ]);
     }

@@ -6,6 +6,7 @@ use App\Models\StudentProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class ApplicationReject extends Component
@@ -46,6 +47,18 @@ class ApplicationReject extends Component
         // do nothing...for now
             $email_status = 'Rejection Letter Not Sent';
         }
+
+        // Log
+        $data = [
+            "affected_user" => $student->email,
+            "effect"=>"Rejected",
+            "time" => date('d M Y h:i:s')
+        ];
+        $json = Storage::disk('public')->get('logs/applications.json');
+        $json = json_decode($json, true);
+        $json[Auth::User()->email.'_'.time()] = $data;
+
+        Storage::disk('public')->put('logs/applications.json', json_encode($json));
 
         $this->dispatch(
             'application_alert',
