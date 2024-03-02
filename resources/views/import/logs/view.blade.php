@@ -1,5 +1,6 @@
 @php 
-$logs = Storage::disk('public')->get('logs/.imports-YChdyIOAkduVCYsuOPsk192K');
+$log_file_name = ".imports-YChdyIOAkduVCYsuOPsk192K";
+$logs = Storage::disk('public')->get('logs/'.$log_file_name);
 $logs = json_decode($logs, true);
 $count = 0;
 @endphp
@@ -59,6 +60,9 @@ $count = 0;
                             @else
                                 @foreach ($logs as $key=>$value)
                                     @php
+                                    // For Accessing Entries
+                                    $entry = $key;
+
                                     $key = explode('_', $key);
                                     $key = $key[0];
                                     $count += 1;
@@ -73,8 +77,7 @@ $count = 0;
                                         <td class="px-4 py-3">{{ $value['effect'] }}</td>
                                         <td class="px-4 py-3">{{ $key }}</td>
                                         <td class="px-4 py-3">
-                                        <a href="" wire:navigate class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded">Delete</a>
-                                        </td>
+                                            <x-logatron.delete-entry entry="{{ $entry }}" logfile="{{ $log_file_name }}" dispatcher="import_applicants"/>
                                     </tr>
                                 @endforeach
                             @endif
