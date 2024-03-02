@@ -29,7 +29,6 @@ class ApplicationsController extends Controller
         return view('applications.index');
     }
 
-
     // much secure than using actual student id
     public function edit($student_profile_id) {
         if(

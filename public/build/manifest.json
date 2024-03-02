@@ -1,0 +1,29 @@
+{
+  "node_modules/tw-elements/dist/js/chart.es.js": {
+    "file": "assets/chart.es-z6gn-Snz.js",
+    "src": "node_modules/tw-elements/dist/js/chart.es.js",
+    "isDynamicEntry": true
+  },
+  "node_modules/tw-elements/dist/js/chartjs-plugin-datalabels.es.js": {
+    "file": "assets/chartjs-plugin-datalabels.es-1fNP2ook.js",
+    "src": "node_modules/tw-elements/dist/js/chartjs-plugin-datalabels.es.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/tw-elements/dist/js/chart.es.js"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-szx_0LPV.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-MVaaxFU2.js",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/tw-elements/dist/js/chart.es.js",
+      "node_modules/tw-elements/dist/js/chartjs-plugin-datalabels.es.js"
+    ]
+  }
+}

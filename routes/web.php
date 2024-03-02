@@ -12,6 +12,7 @@ use App\Http\Controllers\DtefResultController;
 use App\Http\Controllers\DtefRegistrationController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ImportApplicantsController;
+use App\Http\Controllers\LogatronController;
 use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
@@ -97,12 +98,16 @@ Route::get('applications/logs', [ApplicationsController::class, 'logsview'])
     ->name('applications.logsview');
 
 Route::resource('applications', ApplicationsController::class)
-    ->middleware((['auth']));
+    ->middleware(['auth']);
 
 Route::prefix('import_applicants')->middleware(['auth'])->group(function () {
         Route::get('/', [ImportApplicantsController::class, 'index'])->name('import_applicants.index');
         Route::get('/logs', [ImportApplicantsController::class, 'logsview'])->name('import_applicants.logsview');
     });
+
+Route::prefix('logatron')->middleware(['auth'])->group(function (){
+    Route::post('/delete', [LogatronController::class, 'delete'])->name('logatron.delete');
+});
 
 Route::resource('import_applicants', ImportApplicantsController::class)
     ->middleware(['auth']);

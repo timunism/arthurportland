@@ -23,7 +23,8 @@ class StudentProfile extends Model
         'passport_number',
         'address',
         'next_of_kin_phone',
-        'application_date'
+        'application_date',
+        'imported'
     ];
 
     public function scopeSearch($query, $value) {

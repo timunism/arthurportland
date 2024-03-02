@@ -18,6 +18,13 @@
                 class=" text-white mx-2 text-md py-1 px-2 border-2 bg-slate-600 hover:scale-95 transition border-slate-600 font-semibold rounded"
                 >View Logs</a>
             @endif
+            @if (
+                Auth::User()->access == 'unrestricted' ||
+                Auth::User()->access == 'admissions' ||
+                Auth::User()->access == 'admin'
+            )
+                <livewire:flush-imports />
+            @endif
         </div>
     </div>
     <livewire:applications-table />

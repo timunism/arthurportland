@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ImportApplicantsController extends Controller
 {
+    public $profile_id;
+
     public function index() {
         return view('import.applicants');
     }
@@ -28,46 +30,17 @@ class ImportApplicantsController extends Controller
 
         // Log Import
         $data = [
-            "effect"=>"Imported",
+            "effect"=>"Imported Students",
             "start_time" => $import_start_time,
             "end_time"=> date('d M Y h:i:s')
         ];
-        $json = Storage::disk('public')->get('logs/imports.json');
+        $json = Storage::disk('public')->get('logs/.imports-YChdyIOAkduVCYsuOPsk192K');
         $json = json_decode($json, true);
         $json[Auth::User()->email.'_'.time()] = $data;
 
-        Storage::disk('public')->put('logs/imports.json', json_encode($json));
+        Storage::disk('public')->put('logs/.imports-YChdyIOAkduVCYsuOPsk192K', json_encode($json));
 
         return view('applications.index');
-    }
-
-    // Located at ApplicationTable
-    public function delete($id)
-    {
-        DB::beginTransaction();
-
-        try {
-            // Delete the student profile record
-            StudentProfile::find($id)->delete();
-
-            // Delete the associated student course registration record
-            StudentCourseRegistration::where('student_id', $id)->delete();
-
-            // Delete the associated student academic detail record
-            StudentAcademicDetail::where('student_id', $id)->delete();
-
-            // Commit the database transaction
-            DB::commit();
-
-            // Refresh the page to show the updated table
-            return redirect()->refresh();
-        } catch (\Exception $e) {
-            // Rollback the database transaction if any error occurs
-            DB::rollback();
-
-            // Throw the exception back to the caller
-            throw $e;
-        }
     }
 
     public function logsview() {

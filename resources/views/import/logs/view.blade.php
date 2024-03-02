@@ -1,5 +1,5 @@
 @php 
-$logs = Storage::disk('public')->get('logs/imports.json');
+$logs = Storage::disk('public')->get('logs/.imports-YChdyIOAkduVCYsuOPsk192K');
 $logs = json_decode($logs, true);
 $count = 0;
 @endphp
@@ -36,7 +36,7 @@ $count = 0;
                         </div>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto overflow-y-auto max-h-96">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>

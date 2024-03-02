@@ -1,5 +1,6 @@
 @php 
-$logs = Storage::disk('public')->get('logs/applications.json');
+$log_file_name = '.applications-xcUSosUQIDYVsjsjcuSYq';
+$logs = Storage::disk('public')->get('logs/'.$log_file_name);
 $logs = json_decode($logs, true);
 $count = 0;
 @endphp
@@ -36,7 +37,7 @@ $count = 0;
                         </div>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto overflow-y-auto max-h-96">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
@@ -59,9 +60,14 @@ $count = 0;
                             @else
                                 @foreach ($logs as $key=>$value)
                                     @php
+                                    // For Accessing Entries
+                                    $entry = $key;
+
                                     $key = explode('_', $key);
+                                    // For Displaying Entries
                                     $key = $key[0];
                                     $count += 1;
+                                    
                                     @endphp
                                     <tr wire:key="1" class="border-b dark:border-gray-700">
                                         <th scope="row"
@@ -73,7 +79,7 @@ $count = 0;
                                         <td class="px-4 py-3">{{ $value['affected_user'] }}</td>
                                         <td class="px-4 py-3">{{ $value['effect'] }}</td>
                                         <td class="px-4 py-3">
-                                        <a href="" wire:navigate class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded">Delete</a>
+                                        <x-logatron.delete-entry entry="{{ $entry }}" logfile="{{ $log_file_name }}" dispatcher="applications"/>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -54,11 +54,11 @@ class ApplicationReject extends Component
             "effect"=>"Rejected",
             "time" => date('d M Y h:i:s')
         ];
-        $json = Storage::disk('public')->get('logs/applications.json');
+        $json = Storage::disk('public')->get('logs/.applications-xcUSosUQIDYVsjsjcuSYq');
         $json = json_decode($json, true);
         $json[Auth::User()->email.'_'.time()] = $data;
 
-        Storage::disk('public')->put('logs/applications.json', json_encode($json));
+        Storage::disk('public')->put('logs/.applications-xcUSosUQIDYVsjsjcuSYq', json_encode($json));
 
         $this->dispatch(
             'application_alert',

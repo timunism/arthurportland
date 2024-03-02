@@ -39,6 +39,7 @@ class ApplicantsImport implements ToCollection, WithHeadingRow, ShouldQueue, Wit
                     'address' => trim($row['address']),
                     'next_of_kin_phone' => trim($row['nok_phone']),
                     'application_date' => trim($row['application_date']),
+                    'imported'=>'yes',
                 ];
 
                 $courseData = [
@@ -100,7 +101,9 @@ class ApplicantsImport implements ToCollection, WithHeadingRow, ShouldQueue, Wit
 
                     if (trim($row['student_id_number'] != '')) {
                         $course = StudentCourse::where('id', $student_course_registration->course_id)->first();
-                        $student_course_registration->update(['registration_status'=>'admitted']);
+                        
+                        StudentCourseRegistration::where('student_profile_id', $studentProfileID)
+                            ->update(['registration_status'=>'admitted']);
                         StudentRegister::create([
                             'student_profile_id' => $studentProfileID,
                             'student_id' => trim($row['student_id_number']),
